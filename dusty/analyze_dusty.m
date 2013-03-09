@@ -1,7 +1,8 @@
 %% Copyright Daniel Wojcik (2012)
 % Scripts to analyze the data from Dusty
 % data coming from Andrew Jackson laboratory
-
+%
+% chagned by Piotr Stępnicki (2013)
 
 
 %% Setup parameters for data analysis
@@ -17,6 +18,26 @@ path(pa.where_are_the_scripts,path);
 cd(pa.where_are_the_data);
 load('microwire_move_data')
 
+%% Description of experimental setup by Peter
+%
+% EXPERIMENTAL SETUP
+%  
+% Dusty was stiffed with two pairs of electrodes one set 
+% in M1(motor cortex) second pair in PMv (prefrontal cortex)
+% there were 12 electrodes in M1(channels 1-12) and 10 in PM (channels 13-23)
+% For M1 signal only form two electrodes were moved namely lfp6 and lfp11.
+% For PMv 
+% Not sure which channels are associated with them.
+%
+%
+% 
+% DATA FORMAT (Peter notes)
+% what is unit  "u" ?
+%
+%
+%
+%
+
 
 %% From Andrew
 
@@ -29,8 +50,9 @@ load('microwire_move_data')
 
 %staStore{u}(dim1,dim2,dim3)    
 
-    %u = unit index (1:2), where:
-    unitsToProc= [8,1;12,1]; %ie. unit 1 is ch8-code1, unit 2 is ch12-code1
+    %u = unit index (1:2), where: TODO: what are these units
+    %unitsToProc= [8,1;12,1]; %ie. unit 1 is ch8-code1, unit 2 is ch12-code1
+    %TODO: what is it units to proc?
         %dim1 = sta kernel samples, symmetrical around zero (1:width-1)
         %dim2 = lfp ch (1:24)
         %dim3 = block index (1:12), where:
@@ -50,19 +72,18 @@ load('microwire_move_data')
                     '321','day36','pos10';...
                     '332','day38','pos11'};
 
-blocks=blockInfo(:,1);
+
+%TODO: remove not needed variables
+%blocks=blockInfo(:,1);
 width=200;
-sRate=48.828125000;
+%samplingRate=48.828125000;
 
-nUnits=size(unitsToProc,1);
+%nUnits=size(unitsToProc,1);
 
-lfpsToPlot = 1:23;
-tSTA  =((1:width-1)-width/2)/sRate;
+%lfpsToPlot = 1:23;
+%tSTA  =((1:width-1)-width/2)/samplingRate;
+%TODO: scale time, and set middle as zero
 
-
-
-%%
-%figure
 
 moving_electrodes = [6, 11, 13, 21];
 unit = [1, 2];
