@@ -3,15 +3,15 @@ function params=set_parameters
 
 %params.run_name = ['run.' datestr(now,'yyyy.mm.dd.HH.MM') ];
 %params.run_name = 'neco_run2';
-params.run_name = 'all_sets';
+params.run_name = '/run_time';
 
-params.main_dir                 = '/home/piotr/projekty/NENCKI/projekt_ajackson/tymczasowy';
-params.where_are_the_data       = '/home/piotr/projekty/NENCKI/projekt_ajackson/data/dusty';
-params.where_to_put_results     = [params.main_dir '/runs/' params.run_name '/results/'];
-params.where_to_put_figures     = [params.main_dir '/runs/' params.run_name '/figures/'];
+params.main_dir                 = '/home/piotr/projekty/NENCKI/projekt_ajackson';
+params.where_are_the_data       = '/home/piotr/projekty/NENCKI/projekt_ajackson/dane/dusty';
+params.where_to_put_results     = [params.main_dir params.run_name '/wyniki/'];
+params.where_to_put_figures     = [params.main_dir params.run_name '/wykresy/'];
 params.log_file_name            = [params.where_to_put_results 'run.log'];
 
-params.where_are_the_scripts    =  '/home/piotr/projekty/NENCKI/projekt_ajackson/pietrko_branch';
+params.where_are_the_scripts    = '/home/piotr/projekty/NENCKI/projekt_ajackson/git_repo/pietrko_git';
 params.where_are_the_kcsd_scripts = '/home/piotr/projekty/NENCKI/projekt_kCSD/pietrko_kCSD/ica/kCsd1D';
 
 
