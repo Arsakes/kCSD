@@ -96,7 +96,7 @@ for u = unit
         elPos = 0.5*(1:12);
         pots = moveMat';
         X = 0:0.05:6.5;
-        k = kCSD1d(elPos, pots, 'X', X);
+        k = kCSD1d_ICA(elPos, pots, 'X', X);
         % generate positions for the electrodes
         
         %
