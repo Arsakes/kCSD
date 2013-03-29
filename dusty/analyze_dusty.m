@@ -87,6 +87,7 @@ width=200;
 
 moving_electrodes = [6, 11, 13, 21];
 unit = [1, 2];
+% amount of indopendent components
 
 for u = unit
     for lfpi = moving_electrodes
@@ -105,7 +106,7 @@ for u = unit
         subplot(1,2,1)
         imagesc(k.csdEst);
         
-        
+        n_components=4;
         
         %%
         
@@ -122,7 +123,7 @@ for u = unit
         % space conductivity (assumed to be constant)
         sigma = 0.3;
         
-        k = kCSD1d(elPos, pots, 'X', X, 'R', R, 'h', h, 'sigma', sigma);
+        k = kCSD1d_ICA(elPos, pots, 'X', X, 'R', R, 'h', h, 'sigma', sigma);
         % the arguments can be provided in arbitrary order in ('ArgName', 'ArgVal')
         % pairs
         
@@ -130,12 +131,25 @@ for u = unit
         % Now you have to run the estimation method
         k.estimate;
         
+        % ICA calculations
+        k.ICA_preprocessing();
+        k.calc_ica('nic', n_components, 'neig', n_components, 'hi_kurt_s', 1:n_components, 'lo_kurt_t', 1:n_components, 'mode', 's', 'alpha', 1 );
+
+
+        comp = 1;
+
+         
         % The results of the estimation are now available in the k.csdEst property
         % it is a (n_rec_x x nt), where n_rec_x denotes the spatial resolution
         % and nt denotes the number of time points at which the potential was
         % measured.
         subplot(1,2,2)
-        imagesc(k.csdEst);
+        %ploting ica component instead of currents
+
+        size(k.ICA_data.S_components)
+        imagesc(k.ICA_data.S_components(:,comp)*k.ICA_data.T_components(:,comp)')
+        
+        %imagesc(k.csdEst);
         
     end
 end
