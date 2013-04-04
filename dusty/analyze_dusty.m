@@ -4,6 +4,9 @@
 %
 % chagned by Piotr Stępnicki (2013)
 
+% Remember the current location
+start_loc=pwd();
+
 
 %% Setup parameters for data analysis
 pa=set_parameters; % pa - a structure with all the parameters
@@ -89,7 +92,12 @@ moving_electrodes = [6, 11, 13, 21];
 unit = [1, 2];
 % amount of indopendent components
 
+
+% structure for holding results
+results={}
+
 for u = unit
+    ind=1;
     for lfpi = moving_electrodes
         moveMat=squeeze(staNormStore{u}(:,lfpi,:));  % 199x12
         %plot(tSTA,moveMat);
@@ -99,14 +107,11 @@ for u = unit
         X = 0:0.05:6.5;
         k = kCSD1d_ICA(elPos, pots, 'X', X);
         % generate positions for the electrodes
+        result.elPos=elPos;
         
         %
         k.estimate;
-        figure
-        subplot(1,2,1)
-        imagesc(k.csdEst);
-        
-        n_components=4;
+        result.CSD=k.csdEst;
         
         %%
         
@@ -131,25 +136,34 @@ for u = unit
         % Now you have to run the estimation method
         k.estimate;
         
+ 
+        n_components=4;
         % ICA calculations
         k.ICA_preprocessing();
         k.calc_ica('nic', n_components, 'neig', n_components, 'hi_kurt_s', 1:n_components, 'lo_kurt_t', 1:n_components, 'mode', 's', 'alpha', 1 );
 
 
-        comp = 1;
 
          
         % The results of the estimation are now available in the k.csdEst property
         % it is a (n_rec_x x nt), where n_rec_x denotes the spatial resolution
         % and nt denotes the number of time points at which the potential was
         % measured.
-        subplot(1,2,2)
+        %subplot(1,2,2)
         %ploting ica component instead of currents
-
-        size(k.ICA_data.S_components)
-        imagesc(k.ICA_data.S_components(:,comp)*k.ICA_data.T_components(:,comp)')
-        
-        %imagesc(k.csdEst);
-        
+        for comp=1:n_components
+            temp{comp}=k.ICA_data.S_components(:,comp)*transpose(k.ICA_data.T_components(:,comp));
+            result.IC=temp;
+        end
+        % writing the gathered data to array
+        results{u}{ind}=result;
+        ind=ind+1;
     end
 end
+
+%saving results
+cd(pa.where_to_put_results);
+save('results_pietrko', 'results');
+
+%going back
+cd(start_loc);
