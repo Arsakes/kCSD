@@ -97,6 +97,13 @@ n_components=4;
 
 
 % structure for holding results
+%	results{ind1}{ind2}
+%			.lambda
+% 			.elPos
+%			.CSD
+%			.IC_comp - how many IC components there is
+%			.IC{ind3} , ind3 - enumerate the IC components
+%				
 results={}
 
 for u = unit
@@ -111,7 +118,7 @@ for u = unit
         
         % generate positions for the electrodes
         result.elPos=elPos;
-        
+        result.IC_comp = n_components;
         % You can also provide more a-priori knowledge at this stage, like
         
         % the radius of cylinder in the 1d model (corresponds to the 'r'
@@ -132,8 +139,11 @@ for u = unit
         
         % Now you have to run the estimation method - is included in chooseLambda
         k.chooseLambda('sampling', 1);
-        disp('lambda:'); disp(k.lambda);
-        disp('cv error:'); disp(k.getCVerror);
+
+        %saving cross validation error and lambda parameter
+        result.lambda = k.lambda;
+        result.cverr = k.getCVerror;
+        result.CSD = k.csdEst;
         % The results of the estimation are now available in the k.csdEst property
         % it is a (n_rec_x x nt), where n_rec_x denotes the spatial resolution
         % and nt denotes the number of time points at which the potential was
@@ -145,12 +155,12 @@ for u = unit
 
 
 
-         
-        %ploting ica component instead of currents
+        % creating data structure from ica components 
         for comp=1:n_components
             temp{comp}=k.ICA_data.S_components(:,comp)*transpose(k.ICA_data.T_components(:,comp));
             result.IC=temp;
         end
+ 
         % writing the gathered data to array
         results{u}{ind}=result;
         ind=ind+1;
@@ -163,3 +173,4 @@ save('results_pietrko', 'results');
 
 %going back
 cd(start_loc);
+
