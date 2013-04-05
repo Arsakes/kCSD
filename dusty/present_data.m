@@ -21,6 +21,7 @@ for ind1 = 1:2
         subplot(2,3,1);
         imagesc( results{ind1}{ind2}.CSD );
         text=strcat('CSD reconstruction, cverr:', num2str(results{ind1}{ind2}.cverr) );
+        text=strcat(text, 'lambda:', num2str(results{ind1}{ind2}.lambda));
         title(text);
         % plotting the n-th components
         for ind3 = (1:results{ind1}{ind2}.IC_comp)
