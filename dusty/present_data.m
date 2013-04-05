@@ -1,0 +1,4 @@
+%
+% Scripts shows gathered data
+%
+%

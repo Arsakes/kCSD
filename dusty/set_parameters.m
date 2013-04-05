@@ -12,7 +12,7 @@ params.where_to_put_figures     = [params.main_dir params.run_name '/wykresy/'];
 params.log_file_name            = [params.where_to_put_results 'run.log'];
 
 params.where_are_the_scripts    = '/home/piotr/projekty/NENCKI/projekt_ajackson/git_repo/pietrko_git';
-params.where_are_the_kcsd_scripts = '/home/piotr/projekty/NENCKI/projekt_kCSD/pietrko_kCSD/ica/';
+params.where_are_the_kcsd_scripts = '/home/piotr/projekty/NENCKI/projekt_kCSD/git_repo/ica/';
 
 % TODO: is it enough to give path just for child class?
 

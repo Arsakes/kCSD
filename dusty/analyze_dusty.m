@@ -90,7 +90,10 @@ width=200;
 
 moving_electrodes = [6, 11, 13, 21];
 unit = [1, 2];
+
+
 % amount of indopendent components
+n_components=4;
 
 
 % structure for holding results
@@ -105,15 +108,9 @@ for u = unit
         elPos = 0.5*(1:12);
         pots = moveMat';
         X = 0:0.05:6.5;
-        k = kCSD1d_ICA(elPos, pots, 'X', X);
+        
         % generate positions for the electrodes
         result.elPos=elPos;
-        
-        %
-        k.estimate;
-        result.CSD=k.csdEst;
-        
-        %%
         
         % You can also provide more a-priori knowledge at this stage, like
         
@@ -133,11 +130,15 @@ for u = unit
         % pairs
         
         
-        % Now you have to run the estimation method
-        k.estimate;
-        
+        % Now you have to run the estimation method - is included in chooseLambda
+        k.chooseLambda('sampling', 1);
+        disp('lambda:'); disp(k.lambda);
+        disp('cv error:'); disp(k.getCVerror);
+        % The results of the estimation are now available in the k.csdEst property
+        % it is a (n_rec_x x nt), where n_rec_x denotes the spatial resolution
+        % and nt denotes the number of time points at which the potential was
+        % measured.
  
-        n_components=4;
         % ICA calculations
         k.ICA_preprocessing();
         k.calc_ica('nic', n_components, 'neig', n_components, 'hi_kurt_s', 1:n_components, 'lo_kurt_t', 1:n_components, 'mode', 's', 'alpha', 1 );
@@ -145,11 +146,6 @@ for u = unit
 
 
          
-        % The results of the estimation are now available in the k.csdEst property
-        % it is a (n_rec_x x nt), where n_rec_x denotes the spatial resolution
-        % and nt denotes the number of time points at which the potential was
-        % measured.
-        %subplot(1,2,2)
         %ploting ica component instead of currents
         for comp=1:n_components
             temp{comp}=k.ICA_data.S_components(:,comp)*transpose(k.ICA_data.T_components(:,comp));
