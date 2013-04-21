@@ -1,3 +1,7 @@
+%
+% Computes CSD values of base functions in measurement positions
+%
+% src by X matrix
 function bSrcMatrix = bSrcMatrixCalc(X, src, h)
 
 nSrc = length(src);

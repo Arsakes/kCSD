@@ -1,6 +1,7 @@
 %
-% Function used for creating the domain of potential CSD and potentaial calculations
-% X - basic vector based on potential signal measures positions
+% Function used for creating the sources positions in X, denser than data input space,
+% and less dense than estimation area
+% X - estimation area
 % ext - border length (i guess)
 % nSrc - how  many points we want
 %

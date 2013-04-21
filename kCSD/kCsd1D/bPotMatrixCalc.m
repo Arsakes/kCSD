@@ -1,11 +1,10 @@
 %
-% What exactly this function does?
-%
+% Computes potential profifle function values in measurement positions
 %
 function bPotMatrix = bPotMatrixCalc(X, src, elPos, distTable)
 
-nObs = length(elPos);
-n = length(src);
+nObs = length(elPos);	% amount of potential measures
+n = length(src);	% amount of points in visualization space
 
 distMax = max(X(:)) - min(X(:));
 l = length(distTable);
@@ -22,4 +21,5 @@ for srcInd = 1:n
         distTableInd = uint16(l.*r./distMax) + 1;
         bPotMatrix(srcInd, argInd) = distTable(distTableInd);
     end
+
 end

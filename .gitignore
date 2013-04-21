@@ -1,1 +1,7 @@
 *.swp
+*.tex
+*.aux
+*.pdf
+*.log
+*.out
+*.nav
