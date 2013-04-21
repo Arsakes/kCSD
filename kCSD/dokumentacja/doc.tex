@@ -1,0 +1,87 @@
+%TUTAJ JEST MAŁA DOKUMENTACJA WRAZ Z PYTANIAMI
+\documentclass[9pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[MeX]{polski}
+\usepackage{amsfonts}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\HS}{\mathcal{H}}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\IC}{ \mathcal{I}_{\Q^M}^{\C}}
+\newcommand{\IV}{ \mathcal{I}_{\Q^N}^{\Q^M}}
+
+\begin{document}
+%SCHEMAT PRACY KLASY
+\section{Schemat działania}
+
+%DEFINICJIE MATEMATYCZNE
+\section{Model}
+Podstawowe definicje zaczniemy od przestrzeni rozwiązań i matematycznychobietków modlowych.
+\begin{itemize}
+\item $\Q$ - zbiór liczb, nad którym liczymy.
+\item $X_N \subset X, X_N \simeq \{1,2 ...N\}$ - przestrzeń punktów 
+w których znamy potencjał.
+\item $X_M \subset X$ - punkty gdzie umieszczono źródła.
+\item $X =M>N$ - pełna przestrzeń dla potencjałów.
+\item $\HS$ - prawdziwa przestrzeń funkcji, których aproksymacji szukamy
+    tzn. są tutaj zarówno rozwiązania (prądy) jaki i potencjały (w teorii).
+\item $\C = lin(\{ c_x: x \in X_M, c_x(t) \sim gauss(t-x), t\in X \}) \subset \HS$ 
+- przestrzeń funkcyjna skończenie wymiarowa do aproksymacji prądów.
+\item $\V \simeq {\Q^M}, \V \subset \HS \V=L\C$ - przestrzeń do aproksymacji potencjałów.
+\item $L: \C \mapsto \V$ - liniowy operator, liczy potencjały z prądów
+z grubsza odwrócony laplasjan.
+\item $K \simeq \mathcal{K}|_{X_N \times  X_N}, K: \Q^N \mapsto \Q^N$ - jądro 
+reproduktywne przestrzeni aproksymacyjnej $V$, tj. $\mathcal{K}$
+w obcięciu do jej pewnej podprzestrzni.
+\item $\IC: \Q^M \mapsto \C$ macierz zmiany reoprezentacji z przestrzeni
+aporoksymacyjnej w potenjałach do przestrzeni funkcji.
+\item $\IV: \Q^N \mapsto \Q^M$ - macierz która oblicza wartości funkcji bazowych 
+potencjału w punktach zadanych przez pomiar.
+\end{itemize}
+
+
+
+\subsection{Obiekty}
+Niżej wypisano obiekty wraz z matematycznymi strukturami które implementują.
+Strzałka $A : B $ oznacza $A$ implementuje/realizuje $B$.
+\begin{itemize}
+    \item $kCSD1d$ -  klasa bazowa, \\
+    pola:
+    \begin{itemize}
+        \item $X : X$ -  tak mi się wydaje.
+        \item $src : X_M$ - chyba jasne.
+        \item $distTable : v_0 \in \V$ - to profil potencjału, a raczej jego połowa.
+        \item $bPotMatrix : [\IV]_{nm} = v_{x_m}(y_n), y_n\in X^N, x_m\in X^M$
+        \item $bSrcMatrix : [\IC]_{ml} = c_{x_m}(y_l), x_m\in X^M, y_l\in X$ 
+        \item $KPot : K$ - tak to macierz jądra p-ni aproksymacyjnej.
+        \item $interpCross :[\IC \IV] $ - to coś przenosi rzeczy z przestrzeni
+        aproksymacyjnej do przestrzeni prądów.
+        \item $csdEst: c \in \C$ - wynik.
+    \end{itemize}
+    metody:
+    \begin{itemize}
+        \item $create\_dist\_table() \to  Lc_0$ - tworzy $distTable$, czyli profil funkcj 
+        bazowej z przestrzeni $\V (X_N,X_M,X) \mapsto v_0 \in \V$
+        \item $bPotMatrixCalc \to (v_0, X_N,X_M,X)\mapsto \{c_x(y):x\in X_M, y\in X_N \}$ 
+        \item $estimate$
+    \end{itemize}
+    \item $kCSD1d\_ICA$ - klasa potomek, dodaje analiza składowych głównch
+\end{itemize}
+
+\section{Schemat działania}
+Niech $d_{in}$ - dane wejściowe, $d_{out}$ wyjściowe, wtedy:
+$d_{out}= (\IC \circ \IV \circ K^{-1} )( d_{in})$
+
+
+%KROSWALIDACJA
+\section{Rozszerzenie kroswalidacji}
+Pytanie czy da się tę metodą dobrze rozszerzyć?
+Pomysł prosty, zrobić modyfikacje w ten sposób:
+Użytkownik podaje najbardziej prawdopodobne wartości, my zaś je wariujemy w
+określonych granicach.
+
+
+
+\end{document}
+
+%TODO: trzeba zrobic porządek ze zmianą baz
