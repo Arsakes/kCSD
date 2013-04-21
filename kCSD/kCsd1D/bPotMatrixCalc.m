@@ -1,6 +1,7 @@
 %
 % Computes potential profifle function values in measurement positions
 %
+%
 function bPotMatrix = bPotMatrixCalc(X, src, elPos, distTable)
 
 nObs = length(elPos);	% amount of potential measures
