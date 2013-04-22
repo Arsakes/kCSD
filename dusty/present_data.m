@@ -19,14 +19,19 @@ for ind1 = 1:2
         figure;
         % plotting the CSD reconstruction
         subplot(2,3,1);
-        imagesc( results{ind1}{ind2}.CSD );
+        % setting limits
+        chigh=max(max(results{ind1}{ind2}.CSD));
+        clim=min(min(results{ind1}{ind2}.CSD));
+        limits=[clim,chigh];
+
+        imagesc( results{ind1}{ind2}.CSD, limits);
         text=strcat('CSD reconstruction, cverr:', num2str(results{ind1}{ind2}.cverr) );
         text=strcat(text, 'lambda:', num2str(results{ind1}{ind2}.lambda));
         title(text);
         % plotting the n-th components
         for ind3 = (1:results{ind1}{ind2}.IC_comp)
             subplot(2,3,ind3+1);
-            imagesc( results{ind1}{ind2}.IC{ind3} );
+            imagesc( results{ind1}{ind2}.IC{ind3}, limits );
             text=strcat('IC component:', num2str(ind3));
             title(text);
 	end

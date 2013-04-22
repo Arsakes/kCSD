@@ -120,7 +120,11 @@ classdef kCSD1d < handle
             
             k.image = choose_CV_image(pots);
             k.nEl = length(k.elPos);
-            k.lambdas = calc_lambdas; % what for, why it is preset? (The
+            % lambdas should be calculated in comparision to k.KPot 
+            max_lambda=sqrt(trace(k.KPot.^2)/length(elPos)) 
+            % should be calculated as
+            % integral over N-dimensional sphere
+            k.lambdas = calc_lambdas(max_lambda);
         end
         
         function estimate(k)
