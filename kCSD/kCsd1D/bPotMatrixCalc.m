@@ -1,5 +1,5 @@
 %
-% Computes potential profifle function values in measurement positions
+% Computes potential profile function values in measurement positions
 %
 %
 function bPotMatrix = bPotMatrixCalc(X, src, elPos, distTable)
