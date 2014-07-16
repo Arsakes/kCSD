@@ -5,14 +5,14 @@ function params=set_parameters
 %params.run_name = 'neco_run2';
 params.run_name = '/run_time';
 
-params.main_dir                 = '/home/piotr/projekty/NENCKI/projekt_ajackson';
-params.where_are_the_data       = '/home/piotr/projekty/NENCKI/projekt_ajackson/dane/dusty';
+params.main_dir                 = '/home/piotr/projekty/NENCKI/nencki_repo';
+params.where_are_the_data       = '/home/piotr/projekty/NENCKI/nencki_repo/dane/dusty';
 params.where_to_put_results     = [params.main_dir params.run_name '/wyniki/'];
 params.where_to_put_figures     = [params.main_dir params.run_name '/wykresy/'];
 params.log_file_name            = [params.where_to_put_results 'run.log'];
 
-params.where_are_the_scripts    = '/home/piotr/projekty/NENCKI/projekt_ajackson/pietrko_git';
-params.where_are_the_kcsd_scripts = '/home/piotr/projekty/NENCKI/projekt_ajackson/pietrko_git/kCSD/';
+params.where_are_the_scripts    = '/home/piotr/projekty/NENCKI/nencki_repo/pietrko_git';
+params.where_are_the_kcsd_scripts = '/home/piotr/projekty/NENCKI/nencki_repo/pietrko_git/kCSD/';
 
 % TODO: is it enough to give path just for child class?
 
