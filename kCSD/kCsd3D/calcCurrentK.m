@@ -1,10 +1,8 @@
 %
 % Computes kernel for calculation of CSD from potential interpolation
 %
-% valTable - vector of base functions F(r) r -> F(r), F belongs to space function V
-% values we assume that this is row vector
-% N - density of kernel matrix
-% TODO: dimension dependent code
+% code is dimmension independent only evaluation of base function is!
+% 
 % out_grid 3xN dimmensional vector, mesh of points for which CSD is to be calculated
 % params - parametrs for base functions
 function tK = calcCurrentK(src_pos, out_grid, base_grid, params)
@@ -32,10 +30,9 @@ for i=1:m
   f = potential_base(src_pos,base_grid(:,i)*ones(1,n), three_sigma, conductance);
   tmp1(:,i)=f;
   g = current_base(out_grid,base_grid(:,i)*ones(1,n), three_sigma, conductance);
-  tmp
+  tmp2(:,i)=g;
 end
 
-size(tmp)
 % by definiton from paper by Wójcik and Potworowski RKHS 
 % for space V is sum of product base functions taken respectively in x and y points
 

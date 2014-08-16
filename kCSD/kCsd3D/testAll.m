@@ -1,33 +1,51 @@
 function testAll()
+% 
+% Test diagonali: diagonala kernela powinna być
+% sumą kwadratów funkcji bazowych 
+% dla ustalonej siatki funkcji bazowych wiadomo jak to z grubsza 
+% powinno wyglądać
+%
 
-params = [9,1.0];
 
-% przygotowywanie siatki bazy
-t=linspace(0,64,8);
+params = [1/8,1.0];
+
+% przygotowywanie siatki bazowej (tj. funkcji bazowych)
+% siatka jest 8x8 dwuwymiarowa
+n=8
+t=linspace(0,1,n);
 [xx,yy]=meshgrid(t,t);
-x1=reshape(xx,1,64);
-x2=reshape(yy,1,64);
-base=[reshape(xx,1,64); reshape(yy,1,64); zeros(1,64)];
-%plot3(base(1,:), base(2,:), base(3,:),'.');
-axis([-1,17,-1,17]);
+base=[reshape(xx,1,n^2); reshape(yy,1,n^2); zeros(1,n^2)];
+% siatka bazowa base zdefiniowana
 
 
-tmpV=zeros(64,64);
-tmpC=zeros(64,64);
+% siatka próbkowania
+m=50;
+t=linspace(0,1,m);
+[xx,yy]=meshgrid(t,t);
+probing_grid=[reshape(xx,1,m^2); reshape(yy,1,m^2); zeros(1,m^2)];
+
+K=calcCurrentK(probing_grid, probing_grid, base,params);
+% diagonalą kernela będzie kwadrat funkcji bazowych
+% rozlokowanych w całości siatki
+size(diag(K))
+mesh(xx, yy, reshape(diag(K), m,m)),shading('interp');
+
+%tmpV=zeros(64,64);
+%tmpC=zeros(64,64);
 % liczenie odległości
-for i=1:64
-  tmpV(:,i)=potential_base(base,base(:,i)*ones(1,64), params(1), params(2));
-  tmpC(:,i)=current_base(base,base(:,i)*ones(1,64), params(1), params(2));
-end
+%for i=1:64
+%  tmpV(:,i)=potential_base(base,base(:,i)*ones(1,64), params(1), params(2));
+%  tmpC(:,i)=current_base(base,base(:,i)*ones(1,64), params(1), params(2));
+%end
 
 
 %tmp=reshape(tmp(:,1),8,8);
-figure(1);
-plot3(x1,x2,tmpC(:,1)+tmpC(:,64),'.');
-figure(2);
-tmpC=tmpC*transpose(tmpC);
-size(tmpC)
-plot3(x1,x2,inv(tmpC(:,:)),'.');
+%figure(1);
+%plot3(x1,x2,tmpC(:,1)+tmpC(:,64),'.');
+%figure(2);
+%tmpC=tmpC*transpose(tmpC);
+%size(tmpC)
+%plot3(x1,x2,inv(tmpC(:,:)),'.');
 
-axis([-1,65,-1,65]);
+%axis([-1,65,-1,65]);
 end
