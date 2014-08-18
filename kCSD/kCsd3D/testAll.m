@@ -7,27 +7,30 @@ function testAll()
 %
 
 
-params = [1/8,1.0];
+params = [1/16,1];
 
 % przygotowywanie siatki bazowej (tj. funkcji bazowych)
 % siatka jest 8x8 dwuwymiarowa
-n=8
+n=16
 t=linspace(0,1,n);
 [xx,yy]=meshgrid(t,t);
 base=[reshape(xx,1,n^2); reshape(yy,1,n^2); zeros(1,n^2)];
+base=[base,[base(1,:);base(2,:); base(3,:)+1 ] ];
 % siatka bazowa base zdefiniowana
 
 
 % siatka próbkowania
-m=50;
+m=32;
 t=linspace(0,1,m);
 [xx,yy]=meshgrid(t,t);
 probing_grid=[reshape(xx,1,m^2); reshape(yy,1,m^2); zeros(1,m^2)];
 
-K=calcCurrentK(probing_grid, probing_grid, base,params);
+% there could be if case
+K=calcK(probing_grid, base,params);
+%K=calcCurrentK(probing_grid, probing_grid, base,params);
 % diagonalą kernela będzie kwadrat funkcji bazowych
 % rozlokowanych w całości siatki
-size(diag(K))
+%size(null(K))
 mesh(xx, yy, reshape(diag(K), m,m)),shading('interp');
 
 %tmpV=zeros(64,64);

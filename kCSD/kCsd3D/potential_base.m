@@ -24,6 +24,9 @@ g = 1.0./(4.0*pi*conductance*sqrt(r2+eps));
 g =g.* erf( sqrt(r2) ./ ( sqrt(2.0)*sigma ));
 % regularisation
 g(1) = g(2);
-%g'
+% if the function isn't truncated for big arguments the resulting kernel
+% would be not invertible (there is such possibility due to the low machine
+% precision
+g=g.*(sqrt(r2) < three_sigma*8);
 end
 

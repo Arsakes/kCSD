@@ -11,11 +11,11 @@ function tK = calcCurrentK(src_pos, out_grid, base_grid, params)
 n = size(src_pos);
 n = n(2);
 m = size(base_grid);	
-m = m(2)
-
+m = m(2);
 % 3xl vector of output positions
-l= size(out_grid);
+l = size(out_grid);
 l = l(2);
+
 
 % definig parametres
 three_sigma = params(1);
@@ -26,10 +26,11 @@ tmp1=zeros(n,m);
 tmp2=zeros(l,m);
 g=[];
 
+% for each base function a separate computation
 for i=1:m
   f = potential_base(src_pos,base_grid(:,i)*ones(1,n), three_sigma, conductance);
   tmp1(:,i)=f;
-  g = current_base(out_grid,base_grid(:,i)*ones(1,n), three_sigma, conductance);
+  g = current_base(out_grid,base_grid(:,i)*ones(1,l), three_sigma, conductance);
   tmp2(:,i)=g;
 end
 
