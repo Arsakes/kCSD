@@ -1,4 +1,6 @@
 *.swp
+octave-core
+octave-workspace
 *.tex
 *.aux
 *.pdf
