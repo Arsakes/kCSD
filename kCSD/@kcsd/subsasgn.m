@@ -7,7 +7,7 @@ function  obj = subsasgn(obj, idx, rhs)
   % check if we call calss with empty index
   if(isempty(idx))
     error("kcsd: missing index");
-  endif
+  end
  
   % handle the nonempty input
   switch (idx(1).type)
@@ -16,8 +16,8 @@ function  obj = subsasgn(obj, idx, rhs)
         obj.kernel = rhs;
       else
         error("@kcsd: assgining to non existing property!");
-      endif
+      end
     otherwise
       error("invalid subscript type");
   end
-endfunction
+end

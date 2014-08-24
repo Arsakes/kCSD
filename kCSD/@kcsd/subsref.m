@@ -5,7 +5,7 @@
 function retr = subsref(obj, idx)
   if(isempty(idx))
     error("kcsd: missing index");
-  endif
+  end
   %idx(2).type
   %idx(2).subs
   switch (idx(1).type)
@@ -14,8 +14,8 @@ function retr = subsref(obj, idx)
       retr = obj.kernel;
       else
         error("@kcsd: invalid property provided");
-      endif
+      end
     otherwise
       error("invalid subscript type");
   end
-endfunction
+end

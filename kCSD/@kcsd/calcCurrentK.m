@@ -5,7 +5,7 @@
 % 
 % out_grid 3xN dimmensional vector, mesh of points for which CSD is to be calculated
 % params - parametrs for base functions
-function tK = calcCurrentK(src_pos, out_grid, base_grid, params)
+function tK = calcCurrentK(obj, src_pos, out_grid, base_grid, params)
 
 % dimension of functions space where we look for approximation
 n = size(src_pos);
@@ -28,9 +28,9 @@ g=[];
 
 % for each base function a separate computation
 for i=1:m
-  f = potential_base(src_pos,base_grid(:,i)*ones(1,n), three_sigma, conductance);
+  f = potential_base(obj, src_pos,base_grid(:,i)*ones(1,n), three_sigma, conductance);
   tmp1(:,i)=f;
-  g = current_base(out_grid,base_grid(:,i)*ones(1,l), three_sigma, conductance);
+  g = current_base(obj, out_grid,base_grid(:,i)*ones(1,l), three_sigma, conductance);
   tmp2(:,i)=g;
 end
 

@@ -1,4 +1,4 @@
-function testAll()
+function testAll(obj)
 % 
 % Test diagonali: diagonala kernela powinna być
 % sumą kwadratów funkcji bazowych 
@@ -26,7 +26,7 @@ t=linspace(0,1,m);
 probing_grid=[reshape(xx,1,m^2); reshape(yy,1,m^2); zeros(1,m^2)];
 
 % there could be if case
-K=calcK(probing_grid, base,params);
+K=calcK(obj, probing_grid, base, params);
 %K=calcCurrentK(probing_grid, probing_grid, base,params);
 % diagonalą kernela będzie kwadrat funkcji bazowych
 % rozlokowanych w całości siatki

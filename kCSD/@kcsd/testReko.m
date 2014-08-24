@@ -1,11 +1,10 @@
-function testReko(potential_test = 0)
+function testReko(obj, potential_test)
 % 
 % Test diagonali: diagonala kernela powinna być
 % sumą kwadratów funkcji bazowych 
 % dla ustalonej siatki funkcji bazowych wiadomo jak to z grubsza 
 % powinno wyglądać
 %
-
 
 params = [1/16,1.0];
 
@@ -38,11 +37,11 @@ out_grid=[reshape(xx,1,m^2); reshape(yy,1,m^2); zeros(1,m^2)];
 V = ones(l^2,1);
 % src_grid = out_grid = probing_grid (wyświatlamy w mscu pomiaru)
 %C=calcCurrentK(probing_grid, out_grid, base_grid, params);
-C = reconstruct(probing_grid, V ,out_grid , base_grid, params);
+C = reconstruct(obj,probing_grid, V ,out_grid , base_grid, params);
 
 if potential_test == 1
-  K = calcK(probing_grid, base_grid, params);
-  Kout = calcK(probing_grid, base_grid, params, 'out_grid', out_grid);
+  K = calcK(obj, probing_grid, base_grid, params);
+  Kout = calcK(obj, probing_grid, base_grid, params, 'out_grid', out_grid);
 
   % liczenie prądu z potencjału większej liczbie punktów
   Vtest = transpose(Kout)*inv(K)*V;
@@ -51,16 +50,16 @@ if potential_test == 1
  hold on
  plot3(out_grid(1,:), out_grid(2,:), Vtest,'o','color','green');
  hold off
-endif
+end
 
-if potential_test != 1
+if not(potential_test == 1)
 %pełen zrekonstruowany sygnał trzeba wyrysować m^2 punktów
 
 plot3(out_grid(1,:), out_grid(2,:), C,'.');
 hold on
 plot3(out_grid(1,:), out_grid(2,:), C,'o','color','green');
 hold off
-endif
+end
 
 %tmp=reshape(tmp(:,1),8,8);
 %figure(1);

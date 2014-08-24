@@ -1,4 +1,3 @@
-%
 % Computes reproductive kernel from values of base functions
 %
 %
@@ -9,9 +8,11 @@
 % params - parametrs for base functions
 % one may give additonal argument named "out_grid"
 % to specify output grid for kernel: ...,"out_grid", X,...
-%
 % One can also specify dimmension: ...,"dimmension", 1/2/3,...)
-function K = calcK(src_pos, base_grid, params, varargin)
+%
+%
+% @compatibility Matlab R2012A, Octave 3.8+
+function K = calcK(obj, src_pos, base_grid, params, varargin)
 % "definition" of functions space where we look for approximation
 % funcion space is defined by base function, but we assume that
 % each base function is of form g_n(x) = f(x - x_n)
@@ -40,11 +41,11 @@ m = m(2);
 
 % determine if out_grid = src_pos
 one_grid = 0;
-if (!exist('out_grid'))
+if ( exist('out_grid') == 0 )
   out_grid = src_pos;
   one_grid = 1;
-  disp("STATE: Source grid = output grid");
-endif 
+  disp('STATE: Source grid = output grid');
+end
 
 % usually this kernel is used to get the function interpolating potential
 % but it can be also used interpolate this function itself ! (to plot it)
@@ -65,18 +66,18 @@ g=[];
 % there is one grid only
 if one_grid == 1
   for i=1:m
-    tmp(:,i)=potential_base(src_pos, base_grid(:,i)*ones(1,n), three_sigma, conductance);
+    tmp(:,i)=potential_base(obj, src_pos, base_grid(:,i)*ones(1,n), three_sigma, conductance);
   end
   K=tmp*transpose(tmp);
-endif
+end 
 
 % two grids
-if one_grid != 1
+if not(one_grid == 1)
   for i=1:m
-    tmp1(:,i)=potential_base(src_pos, base_grid(:,i)*ones(1,n), three_sigma, conductance);
-    tmp2(:,i)=potential_base(out_grid, base_grid(:,i)*ones(1,l), three_sigma, conductance);
+    tmp1(:,i)=potential_base(obj, src_pos, base_grid(:,i)*ones(1,n), three_sigma, conductance);
+    tmp2(:,i)=potential_base(obj, out_grid, base_grid(:,i)*ones(1,l), three_sigma, conductance);
   end
   K=tmp1*transpose(tmp2);
-endif
+end
 
 end
