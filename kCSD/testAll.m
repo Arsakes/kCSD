@@ -1,4 +1,4 @@
-function testAll(obj)
+function  testAll()
 % 
 % Test diagonali: diagonala kernela powinna być
 % sumą kwadratów funkcji bazowych 
@@ -6,8 +6,9 @@ function testAll(obj)
 % powinno wyglądać
 %
 
-
 params = [1/16,1];
+klasa = kcsd(params);
+
 
 % przygotowywanie siatki bazowej (tj. funkcji bazowych)
 % siatka jest 8x8 dwuwymiarowa
@@ -25,14 +26,23 @@ t=linspace(0,1,m);
 [xx,yy]=meshgrid(t,t);
 probing_grid=[reshape(xx,1,m^2); reshape(yy,1,m^2); zeros(1,m^2)];
 
-% there could be if case
-K=calcK(obj, probing_grid, base, params);
+% there could be if case FUCKING PASSING THROUGH VALUE!
+klasa.updateList
+klasa=calcCurrentK(klasa, probing_grid, probing_grid, base);
+klasa.updateList
+klasa=calcK(klasa, probing_grid, base);
+klasa.updateList
+
 %K=calcCurrentK(probing_grid, probing_grid, base,params);
 % diagonalą kernela będzie kwadrat funkcji bazowych
 % rozlokowanych w całości siatki
 %size(null(K))
-mesh(xx, yy, reshape(diag(K), m,m)),shading('interp');
-
+figure(1)
+mesh(xx, yy, reshape(diag(klasa.currentKernel), m,m)),shading('interp');
+title('Diagnonal kernela prądowego')
+figure(2)
+mesh(xx, yy, reshape(diag(klasa.kernel), m,m)),shading('interp');
+title('Diagnonal kernela')
 %tmpV=zeros(64,64);
 %tmpC=zeros(64,64);
 % liczenie odległości
@@ -40,7 +50,6 @@ mesh(xx, yy, reshape(diag(K), m,m)),shading('interp');
 %  tmpV(:,i)=potential_base(base,base(:,i)*ones(1,64), params(1), params(2));
 %  tmpC(:,i)=current_base(base,base(:,i)*ones(1,64), params(1), params(2));
 %end
-
 
 %tmp=reshape(tmp(:,1),8,8);
 %figure(1);

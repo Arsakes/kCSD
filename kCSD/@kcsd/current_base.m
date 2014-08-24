@@ -1,4 +1,4 @@
-function f = current_base(obj, x, origin, three_sigma, conductance)
+function f = current_base(obj, x, origin)
 % function_base(x, origin, three_sigma)
 % Calculates the base functions for kCSD3D, both currents
 % accepts vector argument
@@ -13,6 +13,8 @@ function f = current_base(obj, x, origin, three_sigma, conductance)
 %
 % TODO make this function able to handle arbitrary dimmension
 %
+three_sigma = obj.params(1);
+
 sigma = (three_sigma./3);
 sigma_n2=sigma^2;
 r2 = sum((x-origin).^2, 1);

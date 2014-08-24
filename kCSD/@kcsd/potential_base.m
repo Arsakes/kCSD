@@ -1,4 +1,4 @@
-function g = potential_base(obj, x, origin, three_sigma, conductance)
+function g = potential_base(obj, x, origin)
 % potential_base(x, origin, three_sigma)
 % Calculates the base functions for kCSD3D, both for potentials
 % accepts vector arguments
@@ -13,6 +13,9 @@ function g = potential_base(obj, x, origin, three_sigma, conductance)
 %
 % TODO make this function able to handle arbitrary dimmension
 %
+three_sigma = obj.params(1);
+conductance = obj.params(2);
+
 sigma = (three_sigma./3.0);
 
 % kwadrat długości odległości
