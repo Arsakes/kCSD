@@ -1,4 +1,4 @@
-function testReko(obj, potential_test)
+function testReko(potential_test)
 % 
 % Test diagonali: diagonala kernela powinna być
 % sumą kwadratów funkcji bazowych 
@@ -17,10 +17,10 @@ base_grid=[reshape(xx,1,n^2); reshape(yy,1,n^2); zeros(1,n^2)];
 % siatka bazowa base zdefiniowana
 
 % siatka próbkowania
-l=7;
+l=8;
 t=linspace(0,1,l);
 [xx,yy]=meshgrid(t,t);
-probing_grid=[reshape(xx,1,l^2); reshape(yy,1,l^2); zeros(1,l^2)];
+src_grid=[reshape(xx,1,l^2); reshape(yy,1,l^2); zeros(1,l^2)];
 
 
 % siatka wyjścia, m-elementów? obszar [0,1]x[0,1]x[0]
@@ -29,41 +29,40 @@ t=linspace(0,1,m);
 [xx,yy]=meshgrid(t,t);
 out_grid=[reshape(xx,1,m^2); reshape(yy,1,m^2); zeros(1,m^2)];
 
-%mesh(xx, yy, reshape(diag(K), m,m)),shading('interp');
-
-% kernel do rysowania potencjału  
 
 % definujemy sygnał - niech będzie płaski! kolumnowy wektor
 V = ones(l^2,1);
-% src_grid = out_grid = probing_grid (wyświatlamy w mscu pomiaru)
-%C=calcCurrentK(probing_grid, out_grid, base_grid, params);
-C = reconstruct(obj,probing_grid, V ,out_grid , base_grid, params);
 
-if potential_test == 1
-  K = calcK(obj, probing_grid, base_grid, params);
-  Kout = calcK(obj, probing_grid, base_grid, params, 'out_grid', out_grid);
 
-  % liczenie prądu z potencjału większej liczbie punktów
-  Vtest = transpose(Kout)*inv(K)*V;
+% klasa kcsd
+obj = kcsd(params, src_grid, out_grid, base_grid, V);
 
- plot3(probing_grid(1,:), probing_grid(2,:), V,'.');
- hold on
- plot3(out_grid(1,:), out_grid(2,:), Vtest,'o','color','green');
- hold off
-end
-
-if not(potential_test == 1)
 %pełen zrekonstruowany sygnał trzeba wyrysować m^2 punktów
+obj=reconstruct(obj);
+figure(1)
+title('CSD reconstruction from flat potential');
+plot3(out_grid(1,:), out_grid(2,:), obj.CSD,'.');
 
-plot3(out_grid(1,:), out_grid(2,:), C,'.');
+
+
+% POTENTIAL INTERPOLATION TEST
+% from 49 points to 1024
+K=obj.kernel;
+obj = recalcKernels(obj, 'interp_grid', out_grid);
+
+%size(V)
+%size(obj.kernel)
+%size(obj.prePin)
+%size(obj.prePout)
+
+% liczenie prądu z potencjału większej liczbie punktów
+Vtest = transpose(obj.kernel)*inv(K)*V;
+figure(2)
+plot3(src_grid(1,:), src_grid(2,:), V,'.');
 hold on
-plot3(out_grid(1,:), out_grid(2,:), C,'o','color','green');
+plot3(out_grid(1,:), out_grid(2,:), Vtest,'o','color','green');
 hold off
-end
 
-%tmp=reshape(tmp(:,1),8,8);
-%figure(1);
-%plot3(x1,x2,tmpC(:,1)+tmpC(:,64),'.');
-%figure(2);
-%axis([-1,65,-1,65]);
+
+
 end

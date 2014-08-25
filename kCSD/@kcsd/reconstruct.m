@@ -6,10 +6,16 @@
 % base_grid 3xN dimmensional vector, mesh of centers of base functions
 % src_grid 3xN dimmensional vector, mesh of points for which we have measures of potential
 % params - parametrs for base functions
-function obj = reconstruct(obj, src_pos, V, out_grid, base_grid)
-  %if obj.updateList(3) == 1 || obj.updateList(1) == 1
-    obj=calcCurrentK(obj, src_pos, out_grid, base_grid';
-    obj=calcK(obj, src_pos, base_grid);
-    obj.solver = (cK*(inv(K)))*V;
-  %end
+function obj = reconstruct(obj)
+  obj = recalcKernels(obj);
+  obj.solver = (transpose(obj.currentKernel)*(inv(obj.kernel)));
+
+  % the incoming argument V should be a matrix <electrode number> x <time samples>
+  N = size(obj.V)(1);
+  T = size(obj.V)(2);
+
+  obj.CSD = zeros(size(obj.out_grid)(2)  ,T);
+  for i=(1:T)
+    obj.CSD(:,i) = obj.solver*obj.V(:,i);
+  end
 end

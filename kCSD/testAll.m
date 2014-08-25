@@ -7,7 +7,6 @@ function  testAll()
 %
 
 params = [1/16,1];
-klasa = kcsd(params);
 
 
 % przygotowywanie siatki bazowej (tj. funkcji bazowych)
@@ -19,45 +18,34 @@ base=[reshape(xx,1,n^2); reshape(yy,1,n^2); zeros(1,n^2)];
 base=[base,[base(1,:);base(2,:); base(3,:)+1 ] ];
 % siatka bazowa base zdefiniowana
 
-
 % siatka próbkowania
 m=32;
 t=linspace(0,1,m);
 [xx,yy]=meshgrid(t,t);
 probing_grid=[reshape(xx,1,m^2); reshape(yy,1,m^2); zeros(1,m^2)];
 
+
+
+% siatka wyjścia, m-elementów? obszar [0,1]x[0,1]x[0]
+l=32;
+t=linspace(0,1,l);
+[xxl,yyl]=meshgrid(t,t);
+out_grid=[reshape(xxl,1,l^2); reshape(yyl,1,l^2); zeros(1,l^2)];
+
+
+klasa = kcsd(params, probing_grid, out_grid, base, V = 1);
 % there could be if case FUCKING PASSING THROUGH VALUE!
+
+% speed test
 klasa.updateList
-klasa=calcCurrentK(klasa, probing_grid, probing_grid, base);
+klasa=recalcKernels(klasa);
 klasa.updateList
-klasa=calcK(klasa, probing_grid, base);
+klasa=recalcKernels(klasa);
 klasa.updateList
 
-%K=calcCurrentK(probing_grid, probing_grid, base,params);
-% diagonalą kernela będzie kwadrat funkcji bazowych
-% rozlokowanych w całości siatki
-%size(null(K))
 figure(1)
-mesh(xx, yy, reshape(diag(klasa.currentKernel), m,m)),shading('interp');
-title('Diagnonal kernela prądowego')
-figure(2)
 mesh(xx, yy, reshape(diag(klasa.kernel), m,m)),shading('interp');
-title('Diagnonal kernela')
-%tmpV=zeros(64,64);
-%tmpC=zeros(64,64);
-% liczenie odległości
-%for i=1:64
-%  tmpV(:,i)=potential_base(base,base(:,i)*ones(1,64), params(1), params(2));
-%  tmpC(:,i)=current_base(base,base(:,i)*ones(1,64), params(1), params(2));
-%end
+title('Diagnonala kernela')
 
-%tmp=reshape(tmp(:,1),8,8);
-%figure(1);
-%plot3(x1,x2,tmpC(:,1)+tmpC(:,64),'.');
-%figure(2);
-%tmpC=tmpC*transpose(tmpC);
-%size(tmpC)
-%plot3(x1,x2,inv(tmpC(:,:)),'.');
 
-%axis([-1,65,-1,65]);
 end

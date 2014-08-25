@@ -22,6 +22,16 @@ function retr = subsref(obj, idx)
         retr=obj.prePout;
       case 'preCout'
         retr=obj.preCout;
+      case 'CSD'
+        retr=obj.CSD;
+      case 'src_grid'
+        retr=obj.src_grid;
+      case 'out_grid'
+        retr=obj.out_grid;
+      case 'solver'
+        retr=obj.solver;
+      case 'base_grid'
+        retr=obj.base_grid;
       otherwise
         error('@kcsd: reading non existing property!');
   end

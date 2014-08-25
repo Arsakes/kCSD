@@ -17,6 +17,12 @@ function  obj = subsasgn(obj, idx, rhs)
       %  obj.kernel = rhs;
       case 'params'
         obj.params = rhs;
+      case 'src_grid'
+        obj.src_grid = rhs;
+        obj.updateList = [1,1,1];  % input data changed flag for update
+      case 'out_grid'
+        obj.out_grid = rhs;
+        obj.updateList(3) = 1;     %input date changed flag for update
       %case 'prePin'
       %  obj.prePin = rhs;
       %  disp('huj trafiony');
