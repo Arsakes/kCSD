@@ -32,6 +32,12 @@ function retr = subsref(obj, idx)
         retr=obj.solver;
       case 'base_grid'
         retr=obj.base_grid;
+      case 'lambdas'
+        retr=obj.lambdas;
+      case 'lambdas_err'
+        retr=obj.lambdas_err;
+      case 'lambda'
+        retr=obj.lambda;
       otherwise
         error('@kcsd: reading non existing property!');
   end

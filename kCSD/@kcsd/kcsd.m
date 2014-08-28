@@ -17,8 +17,7 @@ function k = kcsd(params, src_grid, out_grid, base_grid, V)
   properties.out_grid = out_grid;  % list of the points where we want to estimate CSD
   properties.V = V;                % data structure containing measured potential for each time
 
-
-  % INTERNAL PROPERTIES (without access methods)
+  % INTERNAL PROPERTIES (without set methods)
   %
   % private (only in name no such thing for Octave)
   % for method list checkout the directory
@@ -30,6 +29,9 @@ function k = kcsd(params, src_grid, out_grid, base_grid, V)
   properties.base_grid = base_grid;% list of points where function spaning rkhs are centered 
   properties.solver = 1;           % final solving operator CSD = S * V
   properties.lambdas = 1;          % cross validation procedure lambdas
+  properties.lambdas_err = 1;          % cross validation procedure lambdas
+  properties.lambda = 1;           % min(lambdas)
+
 
   % INTERNAL NOT RELEVANT TO COMPUTATION
   %               Pin   Pout Cout

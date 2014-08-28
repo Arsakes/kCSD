@@ -11,10 +11,13 @@ function obj = reconstruct(obj)
   obj.solver = (transpose(obj.currentKernel)*(inv(obj.kernel)));
 
   % the incoming argument V should be a matrix <electrode number> x <time samples>
-  N = size(obj.V)(1);
-  T = size(obj.V)(2);
-
-  obj.CSD = zeros(size(obj.out_grid)(2)  ,T);
+  N = size(obj.V);
+  T = size(obj.V)
+  N = N(1);
+  T = T(2);
+  l = size(obj.out_grid);
+  l = l(2);
+  obj.CSD = zeros(l  ,T);
   for i=(1:T)
     obj.CSD(:,i) = obj.solver*obj.V(:,i);
   end
