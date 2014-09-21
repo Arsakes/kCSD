@@ -38,7 +38,7 @@ V = ones(l^2,1);
 obj = kcsd(params, src_grid, out_grid, base_grid, V);
 
 %pełen zrekonstruowany sygnał trzeba wyrysować m^2 punktów
-obj=reconstruct(obj);
+obj=estimate(obj);
 figure(1)
 title('CSD reconstruction from flat potential');
 plot3(out_grid(1,:), out_grid(2,:), obj.CSD,'.');

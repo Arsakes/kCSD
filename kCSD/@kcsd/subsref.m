@@ -8,6 +8,8 @@ function retr = subsref(obj, idx)
   end
   if (idx(1).type == '.')
     switch idx(1).subs
+      case 'dim'
+        retr=obj.dim;
       case 'kernel'
         retr=obj.kernel;
       case 'currentKernel'

@@ -53,5 +53,5 @@ title('Diagnonala kernela')
 max_lambda = norm(klasa.kernel) * 0.1;
 klasa =crossValidate(klasa, max_lambda);
 plot(klasa.lambdas/max_lambda, klasa.lambdas_err);
-axis([0,0.1]);
+axis([0,0.1, 0, 0.5*max_lambda]);
 end

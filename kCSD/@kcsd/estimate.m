@@ -6,8 +6,9 @@
 % base_grid 3xN dimmensional vector, mesh of centers of base functions
 % src_grid 3xN dimmensional vector, mesh of points for which we have measures of potential
 % params - parametrs for base functions
-function obj = reconstruct(obj)
+function obj = estimate(obj)
   obj = recalcKernels(obj);
+  % TODO   we don't run cross-validation beacuse its slow (now)
   obj.solver = (transpose(obj.currentKernel)*(inv(obj.kernel)));
 
   % the incoming argument V should be a matrix <electrode number> x <time samples>
