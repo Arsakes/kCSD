@@ -10,3 +10,6 @@ octave-workspace
 *.png
 *.*~
 FastICA_25
+*.zip
+STICA_skew*
+kCsd1D_ICA*

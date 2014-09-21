@@ -23,7 +23,6 @@ while length(prop) >= 2
     case 'interp_grid'
       interp_grid =  val;
       obj.updateList(2) = 1;
-    case 'dimmension'
   end
 end
 % determine interp_mode of work (CSD calc or just potential kernel

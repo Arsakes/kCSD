@@ -36,7 +36,6 @@ function k = kcsd(params, src_grid, out_grid, base_grid, V)
   properties.lambdas_err = 0;          % cross validation procedure lambdas
   properties.lambda = 0;           % min(lambdas)
 
-
   % INTERNAL NOT RELEVANT TO COMPUTATION
   %               Pin   Pout Cout
   % updateList =  [0/1, 0/1, 0/1]
