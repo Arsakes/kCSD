@@ -1,12 +1,18 @@
 % kcsd class constructor
 %
-% @compatibility Matlab < 7.6, Octave > 3.8
-% @author Piotr Stępnicki
-% @note this is an old way of defining a class for matlab i use it for
+% compatibility: Matlab < 7.6, Octave > 3.8
+% author: Piotr Stępnicki
+% note: this is an old way of defining a class for matlab i use it for
 % compatibility with octave
 %
-% 
+% Execution: 
+% k = kcsd(params, src_grid, out_grid, base_grid, V)
+%
 % params = [three_sigma, conductance] - a list with parameters
+% src_grid = list of electrde positions
+% out_grid = list of output pixels for estimate CSD
+% bsd_grid = list of centers of base functions
+%
 function k = kcsd(params, src_grid, out_grid, base_grid, V)
 
   % PUBLIC PROPERTIES (with get access)

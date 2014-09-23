@@ -20,16 +20,16 @@ dim = obj.dim;
 
 
 % 3D case
+% construct potential function
+% potential from gaussain distribution is roughly erf(r)/r
+
 if dim == 3
   % kwadrat długości odległości
   r2 = sum((x-origin).^2, 1);
-
-  % construct potential function
-  % potential from gaussain distribution is roughly erf(r)/r
   g = 1.0./(4.0*pi*conductance*sqrt(r2+eps));
-  g =g.* erf( sqrt(r2) ./ ( sqrt(2.0)*sigma ));
+  g =g.* erf( sqrt(0.5*r2/sigma));
   % regularisation
-  g(1) = g(2);
+  g(1) = 0.99*g(2)+0.01*g(1);
   % if the function isn't truncated for big arguments the resulting kernel
   % would be not invertible (there is such possibility due to the low machine
   % precision
@@ -37,15 +37,19 @@ if dim == 3
 end
 
 if dim == 1 
-  # scale according to things
+  % scale according to things
   y = (x-origin)/(sqrt(2)*sigma);
   r2 = y.^2;
   g = y.*erf(y) + exp(-r2)/sqrt(pi);
-  g*=-0.5*sqrt(2)*sigma/conductance;
+  g =-g*0.5*sqrt(2)*sigma/conductance;
   g=g.*(y < 3/sqrt(2)*8);
 end
 
 if dim == 2
+  y = (x-origin)/(sqrt(2)*sigma);
+  r2 = sum(y.^2, 1);
+  g = -0.5*sigma*sqrt(2.0/pi)*expint(-r2) / conductance;
+
 end
 
 end

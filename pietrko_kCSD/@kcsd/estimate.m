@@ -13,7 +13,7 @@ function obj = estimate(obj)
 
   % the incoming argument V should be a matrix <electrode number> x <time samples>
   N = size(obj.V);
-  T = size(obj.V)
+  T = size(obj.V);
   N = N(1);
   T = T(2);
   l = size(obj.out_grid);
