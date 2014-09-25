@@ -9,16 +9,17 @@
 function obj = estimate(obj)
   obj = recalcKernels(obj);
   % TODO   we don't run cross-validation beacuse its slow (now)
-  obj.solver = (transpose(obj.currentKernel)*(inv(obj.kernel)));
+  R = obj.lambda*eye(size(obj.kernel));
+  obj.solver = (transpose(obj.currentKernel)*(inv(obj.kernel + R)));
 
   % the incoming argument V should be a matrix <electrode number> x <time samples>
-  N = size(obj.V);
-  T = size(obj.V);
-  N = N(1);
-  T = T(2);
+  NT = size(obj.V);
+  N = NT(1);
+  T = NT(2);
   l = size(obj.out_grid);
   l = l(2);
-  obj.CSD = zeros(l  ,T);
+  % TODO CSD should arranged the same way the grid is so (T,point number)
+  obj.CSD = zeros(l,T);
   for i=(1:T)
     obj.CSD(:,i) = obj.solver*obj.V(:,i);
   end

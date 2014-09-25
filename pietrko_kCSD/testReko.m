@@ -6,12 +6,12 @@ function testReko(potential_test)
 % powinno wyglądać
 %
 
-params = [1/16,1.0];
+params = [1.4/16,1];
 
 % przygotowywanie siatki bazowej (tj. funkcji bazowych)
 % siatka jest 8x8 dwuwymiarowa
 n=16;
-t=linspace(0,1,n);
+t=linspace(-0.2,1.2,n);
 [xx,yy]=meshgrid(t,t);
 base_grid=[reshape(xx,1,n^2); reshape(yy,1,n^2); zeros(1,n^2)];
 % siatka bazowa base zdefiniowana
@@ -24,7 +24,7 @@ src_grid=[reshape(xx,1,l^2); reshape(yy,1,l^2); zeros(1,l^2)];
 
 
 % siatka wyjścia, m-elementów? obszar [0,1]x[0,1]x[0]
-m=32;
+m=32-1;
 t=linspace(0,1,m);
 [xx,yy]=meshgrid(t,t);
 out_grid=[reshape(xx,1,m^2); reshape(yy,1,m^2); zeros(1,m^2)];
@@ -38,10 +38,15 @@ V = ones(l^2,1);
 obj = kcsd(params, src_grid, out_grid, base_grid, V);
 
 %pełen zrekonstruowany sygnał trzeba wyrysować m^2 punktów
+obj=crossValidate(obj,max(max(obj.kernel)));
 obj=estimate(obj);
 figure(1)
 title('CSD reconstruction from flat potential');
-plot3(out_grid(1,:), out_grid(2,:), obj.CSD,'.');
+mesh(
+  reshape(out_grid(1,:),m,m), 
+  reshape(out_grid(2,:),m,m),
+  reshape(obj.CSD,m,m)
+), shading('interp');
 
 
 
@@ -56,11 +61,16 @@ obj = recalcKernels(obj, 'interp_grid', out_grid);
 %size(obj.prePout)
 
 % liczenie prądu z potencjału większej liczbie punktów
-Vtest = transpose(obj.kernel)*inv(K)*V;
+R=0.0*eye(size(K));
+Vtest = transpose(obj.kernel)*inv(K+R)*V;
 figure(2)
-plot3(src_grid(1,:), src_grid(2,:), V,'.');
+mesh(reshape(out_grid(1,:),m,m) , 
+  reshape(out_grid(2,:),m,m),
+  reshape(Vtest,m,m)), shading('interp');
+  axis([0,1,0,1,0.75,1.25]);
 hold on
-plot3(out_grid(1,:), out_grid(2,:), Vtest,'o','color','green');
+plot3(src_grid(1,:), src_grid(2,:), V,'.');
+%plot3(out_grid(1,:), out_grid(2,:), Vtest,'o','color','green');
 hold off
 
 

@@ -19,8 +19,8 @@ dim = obj.dim;
 sigma_n2=sigma^2;
 
 if dim == 3
-  r2 = sum((x-origin).^2, 1);
-  f = 1./sqrt(2.*pi.*sigma_n2)^3 .* exp(-r2./(2.*sigma_n2) ) .* (sqrt(r2)<three_sigma); 
+  r2 = sum((x-origin).^2, 1)*0.5/sigma_n2;
+  f = 1./sqrt(2.*pi.*sigma_n2)^3 .* exp(-r2) .* (sqrt(r2)<3/sqrt(2)); 
 end
 
 
