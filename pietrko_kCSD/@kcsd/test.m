@@ -1,5 +1,5 @@
 # pierwsze całkowanie
-x=linspace(-1.2,1.2,1024);
+x=linspace(-5,5,512);
 dx=x(2)-x(1);
 #sigma 1
 sigma = 0.5;
@@ -9,7 +9,7 @@ three_sigma = 3*sigma;
 obj.dim = 1
 origin = 0
 
-dim = 2;
+dim = 3;
 if dim == 1
   y = (x-origin)/(sqrt(2)*sigma);
   r2 = y.^2;
@@ -53,5 +53,25 @@ if dim == 2
   #plot(r2,expint(-r2))
   plot(x, g, x,h,'.');
 end
-axis([-1,1.5]);
+
+if dim == 3
+  r2 = (x-origin).^2;
+  % kwadrat długości odległości
+  g = 1.0./(4.0*pi*conductance*sqrt(r2+eps));
+  g =g.* erf( sqrt(0.5*r2)/sigma);
+  % regularisation
+  g(1) = sqrt(g(2)*g(1));
+  g=g.*(sqrt(r2) < three_sigma*8/3);
+
+  % 3d prąd
+  r2 = sum((x-origin).^2, 1)*0.5/sigma_n2;
+  f = 1./sqrt(2.*pi.*sigma_n2)^3 .* exp(-r2) .* (sqrt(r2)<3/sqrt(2)); 
+ 
+
+  h=-diff(sqrt(r2).*g, 2)./(dx^2);
+  h=[0,h,0]./sqrt(r2);
+  plot(x,f,'.',x,h*conductance,x,g);
+end
+
+axis([-1,2.5,0,1]);
 legend('-d^2/dx^2 V','Q/conductance');

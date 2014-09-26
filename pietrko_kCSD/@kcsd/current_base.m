@@ -25,7 +25,7 @@ end
 
 
 if dim == 2
-  # TODO wrong formulas
+  % TODO wrong formulas
   y= (x-origin)/(sqrt(2)*sigma);
   r2 = sum(y.^2,1);
   f= 1./sqrt(2.*pi.*sigma_n2)^2 .* exp(-r2) .* (sqrt(r2)< 3/sqrt(2)); 

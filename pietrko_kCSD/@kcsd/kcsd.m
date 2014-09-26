@@ -6,31 +6,33 @@
 % compatibility with octave
 %
 % Execution: 
-% k = kcsd(params, src_grid, out_grid, base_grid, V)
+% k = kcsd(src_grid, out_grid, base_grid, V, varargin)
 %
 % params = [three_sigma, conductance] - a list with parameters
 % src_grid = list of electrde positions
 % out_grid = list of output pixels for estimate CSD
 % bsd_grid = list of centers of base functions
 %
-function k = kcsd(params, src_grid, out_grid, base_grid, V)
+function k = kcsd(src_grid, out_grid, base_grid, V, sigma, varargin)
+
 
   % PUBLIC PROPERTIES (with get access)
   %
-  properties.params = params;      % [three_sigma, conductance]
   properties.CSD = 0;              % the current reconstructer
   properties.src_grid = src_grid;  % list of points when the input V is given
   properties.out_grid = out_grid;  % list of the points where we want to estimate CSD
   properties.V = V;                % data structure containing measured potential for each time
- 
-  % 
-  properties.dim = 3;              % spatial dimmension of data
+  [dim, ~] = size(src_grid);
+  properties.dim = dim;            % spatial dimmension of data
+  properties.params = [sigma,1.0];   % [three_sigma, conductance]
+
 
 
   % INTERNAL PROPERTIES (without set methods)
   %
   % private (only in name no such thing for Octave)
   % for method list checkout the directory
+  properties.cvOn = 1;             % perform cross validation 1 - yes, other values- no
   properties.kernel = 1;
   properties.currentKernel = 1;    % kernels and preKernels
   properties.prePin = 1;           % precomputed potential base functins
@@ -47,6 +49,23 @@ function k = kcsd(params, src_grid, out_grid, base_grid, V)
   % updateList =  [0/1, 0/1, 0/1]
   % keeps information about about pre kernels that need update list 4x1
   properties.updateList = [1,1,1];
+ 
+
+
+  % OPTIONAL PROPERTIES FORM PARSING INPUT
+  %
+  [~,prop] = parseparams(varargin);
+  while length(prop) >= 2
+    key = prop{1};
+    val = prop{2};
+    prop = prop(3:end);
+    switch key
+      case 'conductance'
+        properties.params(2) = val;
+      case 'cvON'
+        properties.cvOn = val;
+    end
+  end
 
 
   % sole construction instruction

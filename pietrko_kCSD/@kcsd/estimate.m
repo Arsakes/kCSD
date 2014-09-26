@@ -7,7 +7,14 @@
 % src_grid 3xN dimmensional vector, mesh of points for which we have measures of potential
 % params - parametrs for base functions
 function obj = estimate(obj)
-  obj = recalcKernels(obj);
+  if obj.cvOn == 1
+    % perform cross validation - kernels are calculated there too-obviously
+    obj = crossValidate(obj, 100);
+  end
+  if not(obj.cvOn == 1)
+    obj = recalcKernels(obj);
+  end
+
   % TODO   we don't run cross-validation beacuse its slow (now)
   R = obj.lambda*eye(size(obj.kernel));
   obj.solver = (transpose(obj.currentKernel)*(inv(obj.kernel + R)));

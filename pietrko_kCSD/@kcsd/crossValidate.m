@@ -7,12 +7,12 @@
 % take data norm into account (for some reason data norm connects to noise) 
 %
 % output - nothing (except of class object), internal computes the lambda and sets it
-function obj = crossValidate(obj, maxLambda, debug=0)
+function obj = crossValidate(obj, maxLambda)
   
   % some properties must have definite values
   obj=recalcKernels(obj);  
 
-
+  disp('Cross validation...');
   k_fold = 12;
   % code for "k-fold cross validation" - common statistical procedure
   [~,n] = size(obj.src_grid);
@@ -59,7 +59,4 @@ function obj = crossValidate(obj, maxLambda, debug=0)
   obj.lambda = lambdas(ind_lambda);
   obj.lambdas = lambdas;
   obj.lambdas_err = lambdas_err;
-  if debug == 1
-    plot(lambdas,lambdas_err);
-  end
 end

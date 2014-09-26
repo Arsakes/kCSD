@@ -6,8 +6,6 @@ function testReko(potential_test)
 % powinno wyglądać
 %
 
-params = [1.4/16,1];
-
 % przygotowywanie siatki bazowej (tj. funkcji bazowych)
 % siatka jest 8x8 dwuwymiarowa
 n=16;
@@ -24,7 +22,7 @@ src_grid=[reshape(xx,1,l^2); reshape(yy,1,l^2); zeros(1,l^2)];
 
 
 % siatka wyjścia, m-elementów? obszar [0,1]x[0,1]x[0]
-m=32-1;
+m=32;
 t=linspace(0,1,m);
 [xx,yy]=meshgrid(t,t);
 out_grid=[reshape(xx,1,m^2); reshape(yy,1,m^2); zeros(1,m^2)];
@@ -35,10 +33,9 @@ V = ones(l^2,1);
 
 
 % klasa kcsd
-obj = kcsd(params, src_grid, out_grid, base_grid, V);
+obj = kcsd( src_grid, out_grid, base_grid, V, 2.8/16);
 
 %pełen zrekonstruowany sygnał trzeba wyrysować m^2 punktów
-obj=crossValidate(obj,max(max(obj.kernel)));
 obj=estimate(obj);
 figure(1)
 title('CSD reconstruction from flat potential');
@@ -55,13 +52,15 @@ mesh(
 K=obj.kernel;
 obj = recalcKernels(obj, 'interp_grid', out_grid);
 
+figure(3)
+plot(obj.lambdas, obj.lambdas_err,'x');
 %size(V)
 %size(obj.kernel)
 %size(obj.prePin)
 %size(obj.prePout)
 
 % liczenie prądu z potencjału większej liczbie punktów
-R=0.0*eye(size(K));
+R=0.1*eye(size(K));
 Vtest = transpose(obj.kernel)*inv(K+R)*V;
 figure(2)
 mesh(reshape(out_grid(1,:),m,m) , 

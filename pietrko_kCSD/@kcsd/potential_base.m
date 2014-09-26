@@ -21,26 +21,23 @@ dim = obj.dim;
 % 3D case
 % construct potential function
 % potential from gaussain distribution is roughly erf(r)/r
+% if the function isn't truncated for big arguments the resulting kernel
+% would be not invertible (there is such possibility due to the low machine
+% precision
 
 if dim == 3
-  % TODO check in Maple
-  r2 = sum((x-origin).^2, 1);
-  % kwadrat długości odległości
+  r2 = sum((x-origin).^2 ,1);
   g = 1.0./(4.0*pi*conductance*sqrt(r2+eps));
-  g =g.* erf( sqrt(0.5*r2/sigma));
-  % regularisation
-  g(1) = sqrt(g(2)*g(1));
-  % if the function isn't truncated for big arguments the resulting kernel
-  % would be not invertible (there is such possibility due to the low machine
-  % precision
-  g=g.*(sqrt(r2) < three_sigma*8);
+  g =g.* erf( sqrt(0.5*r2)/sigma);
+  %g(1) = sqrt(g(2)*g(1));
+  g=g.*(sqrt(r2) < three_sigma*8/3);
+
 end
 
 
 if dim == 2
   y = (x-origin)/(sqrt(2)*sigma);
   r2 = sum(y.^2, 1);
-  %
   g = expint(-r2) / (4*pi*conductance);
   g=g.*(sqrt(r2) < 8/sqrt(2));
 end

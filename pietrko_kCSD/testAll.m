@@ -34,7 +34,7 @@ out_grid=[reshape(xxl,1,l^2); reshape(yyl,1,l^2); zeros(1,l^2)];
 
 V=ones(length(probing_grid), 1 );
 
-klasa = kcsd(params, probing_grid, out_grid, base, V);
+klasa = kcsd(probing_grid, out_grid, base, V, 1/16);
 % there could be if case FUCKING PASSING THROUGH VALUE!
 
 % speed test
