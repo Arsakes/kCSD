@@ -12,7 +12,7 @@ function obj = recalcKernels(obj, varargin)
 % funcion space is defined by base function, but we assume that
 % each base function is of form g_n(x) = f(x - x_n)
 % therofre its enought to define list of x_n
-tic
+%tic
 % PARSING INPUT
 [~,prop] = parseparams(varargin);
 while length(prop) >= 2
@@ -102,5 +102,5 @@ obj.updateList(3) = 0;
 
 % tell the class that pre kernels were recently updated
 
-toc
+%toc
 end

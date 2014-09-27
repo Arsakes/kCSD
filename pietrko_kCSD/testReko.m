@@ -39,11 +39,8 @@ obj = kcsd( src_grid, out_grid, base_grid, V, 2.8/16);
 obj=estimate(obj);
 figure(1)
 title('CSD reconstruction from flat potential');
-mesh(
-  reshape(out_grid(1,:),m,m), 
-  reshape(out_grid(2,:),m,m),
-  reshape(obj.CSD,m,m)
-), shading('interp');
+mesh( reshape(out_grid(1,:),m,m), reshape(out_grid(2,:),m,m), reshape(obj.CSD,m,m));
+shading('interp');
 
 
 
@@ -60,13 +57,12 @@ plot(obj.lambdas, obj.lambdas_err,'x');
 %size(obj.prePout)
 
 % liczenie prądu z potencjału większej liczbie punktów
-R=0.1*eye(size(K));
+R=0.0*eye(size(K));
 Vtest = transpose(obj.kernel)*inv(K+R)*V;
 figure(2)
-mesh(reshape(out_grid(1,:),m,m) , 
-  reshape(out_grid(2,:),m,m),
-  reshape(Vtest,m,m)), shading('interp');
-  axis([0,1,0,1,0.75,1.25]);
+mesh(reshape(out_grid(1,:),m,m), reshape(out_grid(2,:),m,m), reshape(Vtest,m,m));
+shading('interp');
+axis([0,1,0,1,0.75,1.25]);
 hold on
 plot3(src_grid(1,:), src_grid(2,:), V,'.');
 %plot3(out_grid(1,:), out_grid(2,:), Vtest,'o','color','green');

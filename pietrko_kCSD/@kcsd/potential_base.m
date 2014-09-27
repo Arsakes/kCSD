@@ -25,34 +25,18 @@ dim = obj.dim;
 % would be not invertible (there is such possibility due to the low machine
 % precision
 
-if dim == 3
-  r2 = sum((x-origin).^2 ,1);
-  g = 1.0./(4.0*pi*conductance*sqrt(r2+eps));
-  g =g.* erf( sqrt(0.5*r2)/sigma);
-  %g(1) = sqrt(g(2)*g(1));
-  g=g.*(sqrt(r2) < three_sigma*8/3);
-
+switch dim 
+  case 3
+    r2 = sum((x-origin).^2 ,1);
+  case 2
+    r2 = sum((x-origin).^2 ,1);
+  case 1
+    r2 = (x-origin).^2;
 end
 
-
-if dim == 2
-  y = (x-origin)/(sqrt(2)*sigma);
-  r2 = sum(y.^2, 1);
-  g = expint(-r2) / (4*pi*conductance);
-  g=g.*(sqrt(r2) < 8/sqrt(2));
-end
-
-
-if dim == 1 
-  % TODO checki in maple
-  % scale according to things
-  y = (x-origin)/(sqrt(2)*sigma);
-  r2 = y.^2;
-  %
-  g = y.*erf(y) + exp(-r2)/sqrt(pi);
-  g = -g*0.5*sqrt(2)*sigma/conductance;
-  g = g.*(y < 8/sqrt(2));
-end
-
+g = 1.0./(4.0*pi*conductance*sqrt(r2+eps));
+g =g.* erf( sqrt(0.5*r2)/sigma);
+g(1) = sqrt(g(2)*g(1));
+g=g.*(sqrt(r2) < three_sigma*8/3);
 
 end
