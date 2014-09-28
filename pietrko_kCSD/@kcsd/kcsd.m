@@ -32,7 +32,6 @@ function k = kcsd(src_grid, out_grid, base_grid, V, sigma, varargin)
   %
   % private (only in name no such thing for Octave)
   % for method list checkout the directory
-  properties.cvOn = 1;             % perform cross validation 1 - yes, other values- no
   properties.kernel = 1;
   properties.currentKernel = 1;    % kernels and preKernels
   properties.prePin = 1;           % precomputed potential base functins
@@ -67,8 +66,6 @@ function k = kcsd(src_grid, out_grid, base_grid, V, sigma, varargin)
         properties.params(2) = val;
       case 'norm_order'
         properties.norm_order = val;
-      case 'cvON'
-        properties.cvOn = val;
       case 'subset'
         properties.cvTestSet = val;
       case 'subset_size'

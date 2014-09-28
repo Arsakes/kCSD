@@ -20,7 +20,6 @@ function err = cv_error(obj, ind_test, ind_train, lambda)
     otherwise
   end
 
-
   % kernel matrix cuted to reconstructed
   K_train = obj.kernel(ind_train, ind_train);
   
@@ -33,9 +32,9 @@ function err = cv_error(obj, ind_test, ind_train, lambda)
   %size(V_train)
   %size(K_train)
   %size(I)
-  %Vt = inv(K_train + lambda.*I)*V_train;
+  Vt = inv(K_train + lambda.*I)*V_train;
   
-  %V_est = K_cross*Vt;
-  V_est = K_cross*inv(K_train + lambda.*I)*V_train;
-  err = norm(V_test - V_est);
+  V_est = K_cross*Vt;
+  %V_est = K_cross*inv(K_train + lambda.*I)*V_train;
+  err = norm(V_test - V_est, obj.norm_order);
 end

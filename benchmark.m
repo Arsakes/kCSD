@@ -43,9 +43,9 @@ for u = unit
     elPos = (0.5*(1:12));
     V = data';
     X = (0:0.05:6.5);     % reconstruction area I believe
-    R = 0.3;            % radius of cylinder in 1D model( 'r' from 2.1.2 section in paper
-    h = 0.5;            % thickness of basis element ('R' from eq 2.25 in paper)
-    sigma = 0.3;         % conductivity
+    R = 0.3;              % radius of cylinder in 1D model( 'r' from 2.1.2 section in paper
+    h = 0.5;              % thickness of basis element ('R' from eq 2.25 in paper)
+    sigma = 0.3;          % conductivity
 
     % running Jaśko code without cross validation (for now)
     tic;
@@ -56,7 +56,8 @@ for u = unit
 
     % pietrko kCSD, without cross validation
     tic;
-    g = kcsd(elPos, X, X, V, h, 'conductivity', sigma, 'cvON', 1, 'subset', 'part', 'subset_size', 10);
+    g = kcsd(elPos, X, X, V, h, 'conductivity', sigma);
+    g = chooseRegParam(g, 'maxLambda', 10, 'n_iter', 2, 'n_folds', 12);
     g = estimate(g);
     pietrkoTime=toc;
   
@@ -68,12 +69,14 @@ for u = unit
 end
 
 
+
 % SUBTITLES
 disp('Czasy:');
-disp(strcat('Jaśko kCSD(s):  ', num2str(jasioTime)));
-disp(strcat('Pietrko kCSD(s):  ', num2str(pietrkoTime)));
-disp('Relatywna czas wykonywania (1.0 dla Jaśka): ');
+disp(strcat('stare kCSD(s): ', num2str(jasioTime)));
+disp(strcat('nowe kCSD(s): ', num2str(pietrkoTime)));
+disp('Względny czas wykonywania (1.0 dla starego kCSD): ');
 disp(pietrkoTime/jasioTime);
+
 
 
 % PLOTTING
@@ -82,8 +85,11 @@ pcolor(jasioCSD); colorbar; colormap(hot); shading('interp');
 xlabel('time')
 ylabel('x')
 
-title('Jaśko kCSD1d(góra) vs Pietrko (dół)' );
+title('stare kCSD1d(góra) vs nowe (dół)' );
 subplot(2,1,2)
 pcolor(pietrkoCSD); colorbar; colormap(hot); shading('interp');
 xlabel('time')
 ylabel('x')
+
+figure(2)
+plot(g.lambdas, g.lambdas_err);

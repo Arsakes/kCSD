@@ -1,19 +1,16 @@
-%
 % @author Pietrko <p.l.stepnicki@gmail.com>
 % @description This method handles error correction in form of cross validation
-%
-%
 % lambda is error correction factor tells how to neglect data and 
 % take data norm into account (for some reason data norm connects to noise) 
 %
-% output - nothing (except of class object), internal computes the lambda and sets it
-function obj = crossValidate(obj, maxLambda)
+% FOR INTERNAL CALLS ONLY!
+%
+% TODO check this code
+%
+% output - table with errors corresponding to different lambdas
+function lambdas_err = crossValidate(obj, lambdas, k_fold)
   
-  % some properties must have definite values
-  obj=recalcKernels(obj);  
 
-  disp('Cross validation...');
-  k_fold = 12;
   % code for "k-fold cross validation" - common statistical procedure
   [~,n] = size(obj.src_grid);
   
@@ -21,6 +18,7 @@ function obj = crossValidate(obj, maxLambda)
   if sample_size == 0 
     sample_size = 1;
   end
+  disp(sample_size)
   rand_ind = randperm(n);                % permutation of indices of electrodes
   ind = {};
 
@@ -38,12 +36,8 @@ function obj = crossValidate(obj, maxLambda)
   end
   
 
-  % REAL CROSS VALIDATION - computing the best lambda
-   x = 0:0.05:10;         
-  lambdas = maxLambda./(2.^x);             %lambda grid
-  lambdas = [lambdas,0];
+  % REAL CROSS VALIDATION - computing lambdas errors
   lambdas_err = [];
-
   for lambda = lambdas
     % computing average error
     errors = zeros(k_fold,1);                                % error computed
@@ -53,10 +47,9 @@ function obj = crossValidate(obj, maxLambda)
       ind_test = ind{i};
       errors(i) = cv_error(obj, ind_test, ind_train, lambda);
     end
+    disp([lambda,mean(errors)]);
     lambdas_err =[lambdas_err, mean(errors)];
   end
-  [~,ind_lambda] = min(lambdas_err);
-  obj.lambda = lambdas(ind_lambda);
-  obj.lambdas = lambdas;
-  obj.lambdas_err = lambdas_err;
+  
+  % now return lambdas_err
 end
