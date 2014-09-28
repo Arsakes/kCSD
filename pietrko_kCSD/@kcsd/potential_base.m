@@ -12,9 +12,8 @@ function g = potential_base(obj, x, origin)
 % centered in point origin
 %
 %
-three_sigma = obj.params(1);
+sigma = obj.params(1);
 conductance = obj.params(2);
-sigma = (three_sigma./3.0);
 dim = obj.dim;
 
 
@@ -23,20 +22,16 @@ dim = obj.dim;
 % potential from gaussain distribution is roughly erf(r)/r
 if dim == 3 || dim == 2
   % TODO check in Maple
-  r2 = sum((x-origin).^2, 1);
+  r = sqrt(sum((x-origin).^2, 1));
 else
-  r2 = (x-origin).^2;
+  r = abs(x-origin);
 end
 
-  % kwadrat długości odległości
-  g = 1.0./(4.0*pi*conductance*sqrt(r2+eps));
-  g =g.* erf( sqrt(0.5*r2/sigma));
-  % regularisation
-  g(1) = sqrt(g(2)*g(1));
+  g = erf( r/ sqrt(2*sigma) ) ./ (4.0*pi*conductance*r + eps);
+  %g(1) = g(2); to make function more smooth
   % if the function isn't truncated for big arguments the resulting kernel
   % would be not invertible (there is such possibility due to the low machine
   % precision
-  g=g.*(sqrt(r2) < three_sigma*8);
-
+  g=g.*(r < 8*sigma);
 
 end

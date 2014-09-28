@@ -48,16 +48,17 @@ addpath(pietrko_kCSD);
   out_grid = [reshape(X,1, 48^2) ; reshape(Y,1,48^2)];
 
   % mesh for base functions
-  t = linspace(0,1,sqrt(base_nr));
+  ps_base = 17;
+  t = linspace(-0.0333,1.03333,ps_base);
   [Xb,Yb]=meshgrid(t,t);
-  base_grid = [reshape(Xb,1, base_nr) ; reshape(Yb,1,base_nr)];
+  base_grid = [reshape(Xb,1, ps_base^2) ; reshape(Yb,1, ps_base^2)];
 
   %size(elPos)
   %size(pots)
   %size(out_grid)
   %size(base_grid)
   tic
-  g = kcsd(elPos', out_grid, base_grid, pots, 2/16, 'conductivity', sigma);
+  g = kcsd(elPos', out_grid, base_grid, pots, 1.84/17, 'conductivity', sigma);
   %g = chooseRegParam(g, 'n_iter', 4);
   g = estimate(g);
   pietrkoTime=toc;
@@ -93,10 +94,6 @@ xlabel('time')
 ylabel('x')
 
 figure(2)
-subplot(1,1,1)
-plot(g.lambdas, g.lambdas_err,'.');
-
-figure(3)
 subplot(1,1,1);
 %pcolor(X,Y,V2d),shading('interp'), colorbar();
 % painting electrodes

@@ -13,8 +13,7 @@ function f = current_base(obj, x, origin)
 %
 % TODO make this function able to handle arbitrary dimmension
 %
-three_sigma = obj.params(1);
-sigma = (three_sigma./3);
+sigma = obj.params(1);
 dim = obj.dim;
 sigma_n2=sigma^2;
 
@@ -23,7 +22,7 @@ if dim == 3 || dim == 2
 else
   r2 = ((x-origin).^2 )*0.5/sigma_n2;
 end
-  f = 1./sqrt(2.*pi.*sigma_n2)^3 .* exp(-r2) .* (sqrt(r2)<3/sqrt(2)); 
 
+f = (exp(-r2) ./ sqrt(2.*pi.*sigma_n2)^3 ) .* (sqrt(r2) < 3/sqrt(2)); 
 
 end
