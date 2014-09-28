@@ -57,7 +57,7 @@ for u = unit
     % pietrko kCSD, without cross validation
     tic;
     g = kcsd(elPos, X, X, V, h, 'conductivity', sigma);
-    g = chooseRegParam(g, 'maxLambda', 10, 'n_iter', 2, 'n_folds', 12);
+    g = chooseRegParam(g, 'n_iter', 1);
     g = estimate(g);
     pietrkoTime=toc;
   
@@ -92,4 +92,5 @@ xlabel('time')
 ylabel('x')
 
 figure(2)
-plot(g.lambdas, g.lambdas_err);
+subplot(1,1,1)
+plot(g.lambdas, g.lambdas_err,'.');

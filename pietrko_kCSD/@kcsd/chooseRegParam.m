@@ -4,15 +4,21 @@
 %
 % if one want to use regularisation this method should be called first 
 function obj = chooseRegParam(obj, varargin)
-
-
-  % some stuff
+ 
+   % some stuff
   disp('Regularisation parameter choosing via cross validation...');
 
+
+  % some properties must have definite values for regularistion
+  obj=recalcKernels(obj);  
+
+
   % DEFAULT PARAMETERS
-  [k_fold, ~] = size(obj.V);
+  [k_fold,~] = size(obj.V);
   n_iter = 1;
-  maxLambda = 100;
+  maxLambda = sqrt(trace(obj.kernel'*obj.kernel));   % norm of kernel ~ eigenvalues
+  cvTestSet = 'all';
+  cvTestSetSize = 1;
 
 
   % GETTING EXTRA INPUT
@@ -28,24 +34,42 @@ function obj = chooseRegParam(obj, varargin)
         n_iter = val;
       case 'maxLambda' 
         maxLambda = val;
+      case 'subset'
+        cvTestSet = val;
+      case 'subset_size'
+        cvTestSetSize = val;
       otherwise
         error(['no method defined for input', prop, 'Available inputs: n_folds, n_iter']);
     end
   end
  
-  x = 0:0.05:10;         
+
+  % SET OPTIONS
+  %
+  % determnation of size of input for training (which time snapshots use)
+  nr_of_frames = size(obj.V, 2);
+  switch cvTestSet
+    case 'all'
+      Time_ind  = 1:nr_of_frames;
+    case 'part'
+      Time_ind  = randperm(nr_of_frames, cvTestSetSize);
+    case 'one'
+      diffs = max(obj.V) - min(obj.V);
+      Time_ind = find(diffs == max(diffs), 1);
+    otherwise
+  end
+ 
+  x = 0:0.04:16;         
   lambdas = maxLambda./(2.^x);             %lambda grid
   lambdas = [lambdas,0];
   lambdas_err = zeros(size(lambdas));
 
 
-  % some properties must have definite values
-  obj=recalcKernels(obj);  
-
+  % RUN CV
   % loop over iterations
   for i = (1:n_iter)
     % table of errors
-    lambdas_err = lambdas_err + crossValidate(obj, lambdas, k_fold);
+    lambdas_err = lambdas_err + crossValidate(obj, lambdas, k_fold, Time_ind);
   end
   lambdas_err = lambdas_err/n_iter;
 

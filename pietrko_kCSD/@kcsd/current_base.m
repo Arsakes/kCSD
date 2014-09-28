@@ -18,18 +18,12 @@ sigma = (three_sigma./3);
 dim = obj.dim;
 sigma_n2=sigma^2;
 
-switch dim
-  case 3
-    r2 = sum((x-origin).^2, 1)*0.5/sigma_n2;
-  case 2
-    r2 = sum((x-origin).^2, 1)*0.5/sigma_n2;
-  case 1
-    r2 = (x-origin).^2 *0.5/sigma_n2;
+if dim == 3 || dim == 2
+  r2 = sum((x-origin).^2, 1)*0.5/sigma_n2;
+else
+  r2 = ((x-origin).^2 )*0.5/sigma_n2;
 end
+  f = 1./sqrt(2.*pi.*sigma_n2)^3 .* exp(-r2) .* (sqrt(r2)<3/sqrt(2)); 
 
-% I'm supprised that this is working
-% one must remember that we assume gaussian profile in EVERY direction
-% (with different sigmas) that's why output is so simple
-f = 1./sqrt(2.*pi.*sigma_n2)^3 .* exp(-r2) .* (sqrt(r2)<3/sqrt(2)); 
 
 end

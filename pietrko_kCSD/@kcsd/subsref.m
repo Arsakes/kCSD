@@ -40,10 +40,6 @@ function retr = subsref(obj, idx)
         retr=obj.lambdas_err;
       case 'lambda'
         retr=obj.lambda;
-      case 'subset'
-        retr=obj.cvTestSet;
-      case 'subset_size'
-        retr=obj.cvTestSetSize;
       otherwise
         error('@kcsd: reading non existing property!');
   end

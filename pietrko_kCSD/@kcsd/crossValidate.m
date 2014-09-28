@@ -8,7 +8,7 @@
 % TODO check this code
 %
 % output - table with errors corresponding to different lambdas
-function lambdas_err = crossValidate(obj, lambdas, k_fold)
+function lambdas_err = crossValidate(obj, lambdas, k_fold, Time_ind)
   
 
   % code for "k-fold cross validation" - common statistical procedure
@@ -18,7 +18,8 @@ function lambdas_err = crossValidate(obj, lambdas, k_fold)
   if sample_size == 0 
     sample_size = 1;
   end
-  disp(sample_size)
+  %disp(sample_size) FIXME TEST 
+
   rand_ind = randperm(n);                % permutation of indices of electrodes
   ind = {};
 
@@ -45,9 +46,8 @@ function lambdas_err = crossValidate(obj, lambdas, k_fold)
       ind_train = 1:n;
       ind_train(ind{i}) = [];
       ind_test = ind{i};
-      errors(i) = cv_error(obj, ind_test, ind_train, lambda);
+      errors(i) = cv_error(obj, ind_test, ind_train, lambda, Time_ind);
     end
-    disp([lambda,mean(errors)]);
     lambdas_err =[lambdas_err, mean(errors)];
   end
   

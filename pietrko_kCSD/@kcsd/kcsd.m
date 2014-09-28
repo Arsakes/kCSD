@@ -42,8 +42,6 @@ function k = kcsd(src_grid, out_grid, base_grid, V, sigma, varargin)
   properties.lambdas = 0;          % cross validation procedure lambdas
   properties.lambdas_err = 0;          % cross validation procedure lambdas
   properties.lambda = 0;           % min(lambdas)
-  properties.cvTestSet = 'all';
-  properties.cvTestSetSize = 1;
   properties.norm_order = 2;           % the L^p norm used for assessing errors
 
   % INTERNAL NOT RELEVANT TO COMPUTATION
@@ -66,10 +64,10 @@ function k = kcsd(src_grid, out_grid, base_grid, V, sigma, varargin)
         properties.params(2) = val;
       case 'norm_order'
         properties.norm_order = val;
-      case 'subset'
-        properties.cvTestSet = val;
-      case 'subset_size'
-        properties.cvTestSetSize = val;
+      %case 'subset'
+      %  properties.cvTestSet = val;
+      %case 'subset_size'
+      %  properties.cvTestSetSize = val;
       case 'lambda'
         properties.lambda = val;
       case 'lambdas'

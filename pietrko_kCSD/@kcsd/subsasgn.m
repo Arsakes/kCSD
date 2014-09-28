@@ -31,15 +31,10 @@ function  obj = subsasgn(obj, idx, rhs)
         obj.lambdas = rhs;
       case 'lambda'
         obj.lambda = rhs;
-      case 'subset'
-        obj.cvTestSet = val;
-      case 'subset_size'
-        obj.cvTestSetSize = val;
       case 'norm_order'
         obj.norm_order;
       %case 'prePin'
       %  obj.prePin = rhs;
-      %  disp('huj trafiony');
       %case 'prePout'
       %  obj.prePout = rhs;
       %case 'preCout'

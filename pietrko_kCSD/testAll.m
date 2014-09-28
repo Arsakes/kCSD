@@ -33,7 +33,7 @@ out_grid=[reshape(xxl,1,l^2); reshape(yyl,1,l^2); zeros(1,l^2)];
 
 V=ones(length(probing_grid), 1 );
 
-klasa = kcsd(probing_grid, out_grid, base, V, 1/12);
+klasa = kcsd(probing_grid, out_grid, base, V, 1/10);
 % there could be if case FUCKING PASSING THROUGH VALUE!
 
 
@@ -41,7 +41,7 @@ klasa = kcsd(probing_grid, out_grid, base, V, 1/12);
 
 % max lambda is correlated to the norm of kernel 
 max_lambda = norm(klasa.kernel)
-klasa =chooseRegParam(klasa, 'maxLambda', max_lambda, 'n_folds', 12);
+klasa = chooseRegParam(klasa, 'maxLambda', max_lambda, 'n_folds', 12);
 
 % speed test
 klasa=recalcKernels(klasa);
