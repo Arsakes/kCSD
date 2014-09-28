@@ -9,34 +9,19 @@
 % Remember the current location
 %% Setup parameters for data analysis
 start_loc=pwd();
-data_path='/home/piotr/projekty/NENCKI/nencki_repo/dane/dusty';
-jasko_kCSD='/home/piotr/projekty/NENCKI/nencki_repo/forSara/';
-pietrko_kCSD='/home/piotr/projekty/NENCKI/nencki_repo/pietrko_git/pietrko_kCSD';
+jasko_kCSD='/home/piotr/projekty/NENCKI/programy/forSara/';
+pietrko_kCSD='/home/piotr/projekty/NENCKI/programy/pietrko_git/pietrko_kCSD';
 
 
 % TODO change path - for test purposes only!
-addpath(data_path);
 addpath(genpath(jasko_kCSD));
+%addpath(genpath(jasko_kCSD2));
 addpath(pietrko_kCSD);
 
-% load data
-load('microwire_move_data');
 
-%nUnits=size(unitsToProc,1);
-
-% WE DON
-%moving_electrodes = [6, 11, 13, 21];
-%unit = [1, 2];
-% just singular data set for test
-unit = [1];
-moving_electrodes = [6];
-
-
-for u = unit
-  ind=1;
-  for lfpi = moving_electrodes 
+% BENCHMARK FOR 1D
     % reading data
-    data = squeeze(staNormStore{u}(:,lfpi,:)); % 199x12 <<temporal,spatial>
+    load('dusty1Dtest.mat')
     
     % JAŚKO kCSD
     % configuration
@@ -51,43 +36,39 @@ for u = unit
     tic;
     k = kCSD1d(elPos, V, 'X', X, 'R', R, 'h',h, 'sigma', sigma);
     k.estimate();
-    jasioTime=toc;
-
+    jasioTime1=toc;
 
     % pietrko kCSD, without cross validation
     tic;
     g = kcsd(elPos, X, X, V, h, 'conductivity', sigma);
     g = chooseRegParam(g, 'n_iter', 1);
     g = estimate(g);
-    pietrkoTime=toc;
+    pietrkoTime1=toc;
   
-
     % saving the results for comparison
-    jasioCSD = k.csdEst;
-    pietrkoCSD = g.CSD;
-  end
-end
+    jasioCSD1 = k.csdEst;
+    pietrkoCSD1 = g.CSD;
 
-
+% OUTPUT
 
 % SUBTITLES
-disp('Czasy:');
-disp(strcat('stare kCSD(s): ', num2str(jasioTime)));
-disp(strcat('nowe kCSD(s): ', num2str(pietrkoTime)));
+disp('1D:');
+disp(strcat('stare kCSD(s): ', num2str(jasioTime1)));
+disp(strcat('nowe kCSD(s): ', num2str(pietrkoTime1)));
 disp('Względny czas wykonywania (1.0 dla starego kCSD): ');
-disp(pietrkoTime/jasioTime);
+disp(pietrkoTime1/jasioTime1);
 
 
 
 % PLOTTING
 subplot(2,1,1)
-pcolor(jasioCSD); colorbar; colormap(hot); shading('interp');
+pcolor(jasioCSD1); colorbar; colormap(hot); shading('interp');
 xlabel('time')
 ylabel('x')
 
-title('stare kCSD1d(góra) vs nowe (dół)' );
+title('1D: stare kCSD1d(góra) vs nowe (dół)' );
 subplot(2,1,2)
-pcolor(pietrkoCSD); colorbar; colormap(hot); shading('interp');
+pcolor(pietrkoCSD1); colorbar; colormap(hot); shading('interp');
 xlabel('time')
 ylabel('x')
 
