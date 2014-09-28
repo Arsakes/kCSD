@@ -8,14 +8,12 @@
 
 % Remember the current location
 %% Setup parameters for data analysis
-start_loc=pwd();
 jasko_kCSD='/home/piotr/projekty/NENCKI/programy/forSara/';
 pietrko_kCSD='/home/piotr/projekty/NENCKI/programy/pietrko_git/pietrko_kCSD';
 
 
 % TODO change path - for test purposes only!
 addpath(genpath(jasko_kCSD));
-%addpath(genpath(jasko_kCSD2));
 addpath(pietrko_kCSD);
 
 
@@ -72,6 +70,6 @@ pcolor(pietrkoCSD1); colorbar; colormap(hot); shading('interp');
 xlabel('time')
 ylabel('x')
 
-figure(2)
-subplot(1,1,1)
-plot(g.lambdas, g.lambdas_err,'.');
+%figure(2)
+%subplot(1,1,1)
+%plot(g.lambdas, g.lambdas_err,'.');
