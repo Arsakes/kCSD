@@ -9,7 +9,7 @@
 % 
 % parameters: plotElectrodes = 1 or 0
 %
-% kcsdValidate3D(plotElectrodes)
+kcsdValidate3D(plotElectrodes)
 function kcsdValidate3D(plotElectrodes)
   sigma = 1.2/9;
   params = [sigma,1.0];
@@ -132,10 +132,10 @@ function kcsdValidate3D(plotElectrodes)
     caxis([minCSDr,maxCSDr] );
     title(strcat('z=', num2str(i/m)) );
     % plotting circles for sources
-    %hold on
+    hold on
       % find nearby potential sources
-    %  [~,el2plt] = find( abs(src_grid(3,:) - i/m) < 0.333*dz);
-    %  plot( src_grid(1,el2plt), src_grid(2,el2plt), 'o');
+      [~,el2plt] = find( abs(src_grid(3,:) - i/m) < 0.45*dz);
+      plot( src_grid(1,el2plt), src_grid(2,el2plt), 'o');
     %hold off
   end
 

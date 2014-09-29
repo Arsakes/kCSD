@@ -1,18 +1,17 @@
-function f = current_base(obj, x, origin)
-% function_base(x, origin, three_sigma)
 % Calculates the base functions for kCSD3D, both currents
 % accepts vector argument
 %
 % INPUT 
-% x                 - vector from R^3 x n defining position
-% three_sigma       - three times the std of the distribution
+% x           - vector from {1,2,3} x n defining position to compute current
+% sigma       - three times the std of the distribution
 %
 % OUTPUT
-% f - value  of a density proportional to - standard gaussian with std=three_sigma/3
+% f - value  of a density proportional to - gaussian with std=sigma
 % centered in point origin
 %
-% TODO make this function able to handle arbitrary dimmension
 %
+% f = current_base(obj, x, origin)
+function f = current_base(obj, x, origin)
 sigma = obj.params(1);
 dim = obj.dim;
 sigma_n2=sigma^2;

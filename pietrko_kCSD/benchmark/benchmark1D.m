@@ -8,7 +8,7 @@
 
 %-----------------------------PATHS---------------------------------
 jasko_kCSD='/home/piotr/projekty/NENCKI/programy/forSara/';
-pietrko_kCSD='/home/piotr/projekty/NENCKI/programy/pietrko_git/pietrko_kCSD';
+pietrko_kCSD='../';
 %-----------------------------PATHS---------------------------------
 
 
