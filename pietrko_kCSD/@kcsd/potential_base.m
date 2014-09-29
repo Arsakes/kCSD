@@ -26,12 +26,11 @@ if dim == 3 || dim == 2
 else
   r = abs(x-origin);
 end
-
-  g = erf( r/ sqrt(2*sigma) ) ./ (4.0*pi*conductance*r + eps);
-  %g(1) = g(2); to make function more smooth
+  g = erf( r/ sqrt(2*sigma) ) ./ (4.0*pi*conductance*r + 1e5*eps);
+  %to make function more smooth
   % if the function isn't truncated for big arguments the resulting kernel
   % would be not invertible (there is such possibility due to the low machine
   % precision
-  g=g.*(r < 8*sigma);
+  g=g.*(r < 10*sigma); %9 "safe" value
 
 end

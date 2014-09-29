@@ -4,12 +4,12 @@
 %
 % MATLAB ONLY 
 %  
-% by Piotr Stępnicki (2014)
 
-% Remember the current location
-%% Setup parameters for data analysis
+
+%-----------------------------PATHS---------------------------------
 jasko_kCSD='/home/piotr/projekty/NENCKI/programy/kcsd/trunk/2D';
 pietrko_kCSD='/home/piotr/projekty/NENCKI/programy/pietrko_git/pietrko_kCSD';
+%-----------------------------PATHS---------------------------------
 
 
 % TODO change path - for test purposes only!
@@ -53,12 +53,10 @@ addpath(pietrko_kCSD);
   [Xb,Yb]=meshgrid(t,t);
   base_grid = [reshape(Xb,1, ps_base^2) ; reshape(Yb,1, ps_base^2)];
 
-  %size(elPos)
-  %size(pots)
-  %size(out_grid)
-  %size(base_grid)
   tic
-  g = kcsd(elPos', out_grid, base_grid, pots, 1.84/17, 'conductivity', sigma);
+  % R for method below should be different that the one for old kcsd since it uses gaussians 
+  % instead of indicator functions 1.84
+  g = kcsd(elPos', out_grid, base_grid, pots, 1.38/17, 'conductivity', sigma);
   %g = chooseRegParam(g, 'n_iter', 4);
   g = estimate(g);
   pietrkoTime=toc;
@@ -81,24 +79,27 @@ disp(pietrkoTime/jasioTime);
 
 % PLOTTING
 figure(1)
-subplot(2,1,1)
-pcolor(jasioCSD); colorbar; colormap(hot); shading('interp');
+subplot(2,2,1)
+pcolor(X,Y,jasioCSD); colormap(hot); shading('interp');
 xlabel('x')
 ylabel('y')
 
-title('1D: stare kCSD1d(góra) vs nowe (dół)' );
-subplot(2,1,2)
-size(pietrkoCSD)
-pcolor(pietrkoCSD); colorbar; colormap(hot); shading('interp');
-xlabel('time')
-ylabel('x')
+title('2D: oryginalne kCSD1d');
+subplot(2,2,2)
+%size(pietrkoCSD)
+pcolor(X,Y,pietrkoCSD); colormap(hot); shading('interp');
+title('2D: moje kCSD1d');
+xlabel('x')
+ylabel('y')
 
-figure(2)
-subplot(1,1,1);
+subplot(2,2,3);
+
+
 %pcolor(X,Y,V2d),shading('interp'), colorbar();
 % painting electrodes
-surf(X,Y,V2d), shading('flat');
-hold on
-  h=plot3(elPos(:,1),elPos(:,2), pots, 'o');
-  set(h,'linewidth',(2.0));
-hold off
+pcolor(X,Y,csd2d), shading('interp');
+title('oryginał')
+%hold on
+%  h=plot3(elPos(:,1),elPos(:,2), pots, 'o');
+%  set(h,'linewidth',(2.0));
+%hold off

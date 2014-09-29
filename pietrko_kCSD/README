@@ -1,0 +1,39 @@
+#                    kcsd README
+#
+# NOTE: Add this folder(that is the folder where you found this file) to your Matlab path 
+#
+# NOTE: for compatibility this code use old matlab class system 
+#       so it may look strange
+#
+#
+#################################################################### 
+
+1.Create and class object:
+  k = kcsd(src_grid, out_grid, base_grid, V, sigma, ...optional parameters...);
+    where:
+    src_grid - electorde posiions
+    out_grid - list of point you want to estimate CSD
+    base_grid - centers of your base functions
+    V- measurements performed in points from src_grid
+    sigmn - width of base fuction
+  
+2.(OPTIONAL) In case you want to use make noise reduction and avoid over-fitting run:
+  k = chooseRegParam(k, ...optional parameters...);
+
+3. Run computations and estimate CSD
+  k = k.estimate()
+
+4. Get your data (CSD) in following way
+  k.CSD
+
+
+#################################################################### 
+#
+# NOTE :For descriptions of optional parameters look to files:
+#  kcsd.m
+#  chooseRegParam.m
+#
+#
+#                        GL & HF
+#
+#################################################################### 

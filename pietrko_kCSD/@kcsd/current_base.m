@@ -22,7 +22,8 @@ if dim == 3 || dim == 2
 else
   r2 = ((x-origin).^2 )*0.5/sigma_n2;
 end
-
-f = (exp(-r2) ./ sqrt(2.*pi.*sigma_n2)^3 ) .* (sqrt(r2) < 3/sqrt(2)); 
+ 
+f = (exp(-r2) ./ sqrt(2.*pi.*sigma_n2)^3 ) .* (r2 < 9/2); 
+% cuted for r greter than 3 sigma
 
 end

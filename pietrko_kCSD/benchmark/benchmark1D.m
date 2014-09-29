@@ -4,12 +4,17 @@
 %
 % MATLAB ONLY 
 %  
-% by Piotr Stępnicki (2014)
 
-% Remember the current location
-%% Setup parameters for data analysis
+
+%-----------------------------PATHS---------------------------------
 jasko_kCSD='/home/piotr/projekty/NENCKI/programy/forSara/';
 pietrko_kCSD='/home/piotr/projekty/NENCKI/programy/pietrko_git/pietrko_kCSD';
+%-----------------------------PATHS---------------------------------
+
+
+
+
+
 
 
 % TODO change path - for test purposes only!
@@ -38,8 +43,8 @@ addpath(pietrko_kCSD);
 
     % pietrko kCSD, without cross validation
     tic;
-    g = kcsd(elPos, X, X, V, h, 'conductivity', sigma);
-    g = chooseRegParam(g, 'n_iter', 1);
+    g = kcsd(elPos, X, X, V, 0.73*R, 'conductivity', sigma);
+    %g = chooseRegParam(g, 'n_iter', 1);
     g = estimate(g);
     pietrkoTime1=toc;
   
