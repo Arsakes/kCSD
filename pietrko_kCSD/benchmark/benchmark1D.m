@@ -43,7 +43,7 @@ addpath(pietrko_kCSD);
 
     % pietrko kCSD, without cross validation
     tic;
-    g = kcsd(elPos, X, X, V, 0.73*R, 'conductivity', sigma);
+    g = kcsd(elPos', X', X', V, 0.73*R, 'conductivity', sigma);
     %g = chooseRegParam(g, 'n_iter', 1);
     g = estimate(g);
     pietrkoTime1=toc;

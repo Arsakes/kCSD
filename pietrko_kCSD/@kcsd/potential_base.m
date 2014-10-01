@@ -1,16 +1,17 @@
-function g = potential_base(obj, x, origin)
 % potential_base(x, origin, three_sigma)
 % Calculates the base functions for kCSD3D
 % accepts vector arguments
 %
 % INPUT 
-% x                 - vector from R^3 x n defining position
+% x                 - vector from  n x {1,2,3} defining position
 % three_sigma       - three times the std of the distribution
+% origin            - vector n x {1,2,3} that defines centers of base functions
 %
 % OUTPUT
 % f - value  of a density proportional to - gaussian with std=sigma
 %
-% centered in point origin
+% g = potential_base(obj, x, origin)
+function g = potential_base(obj, x, origin)
 sigma = obj.params(1);
 conductance = obj.params(2);
 dim = obj.dim;
@@ -20,7 +21,7 @@ dim = obj.dim;
 % construct potential function
 % potential from gaussain distribution is roughly erf(r)/r
 if dim == 3 || dim == 2
-  r = sqrt(sum((x-origin).^2, 1));
+  r = sqrt(sum((x-origin).^2, 2));
 else
   r = abs(x-origin);
 end

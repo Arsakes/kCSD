@@ -116,4 +116,4 @@ for t=linspace(-9,19,1024)
   j=j+1;
 end
 close all;
-save brainRatSuperstar.mat -v7 F;
+save ratBrainSuperstar.mat -v7 F;

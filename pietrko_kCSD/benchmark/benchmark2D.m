@@ -45,18 +45,18 @@ addpath(pietrko_kCSD);
   % Additional data for pietrko kCSD
   %
   % mesh for output 48x48 = 2304
-  out_grid = [reshape(X,1, 48^2) ; reshape(Y,1,48^2)];
+  out_grid = [reshape(X, 48^2,1) , reshape(Y,48^2,1)];
 
   % mesh for base functions
   ps_base = 17;
   t = linspace(-0.0333,1.03333,ps_base);
   [Xb,Yb]=meshgrid(t,t);
-  base_grid = [reshape(Xb,1, ps_base^2) ; reshape(Yb,1, ps_base^2)];
+  base_grid = [reshape(Xb,ps_base^2,1) , reshape(Yb, ps_base^2,1)];
 
   tic
   % R for method below should be different that the one for old kcsd since it uses gaussians 
   % instead of indicator functions 1.84
-  g = kcsd(elPos', out_grid, base_grid, pots, 1.38/17, 'conductivity', sigma);
+  g = kcsd(elPos, out_grid, base_grid, pots, 1.38/17, 'conductivity', sigma);
   %g = chooseRegParam(g, 'n_iter', 4);
   g = estimate(g);
   pietrkoTime=toc;

@@ -7,7 +7,7 @@ function obj = estimate(obj)
   obj = recalcKernels(obj);
 
   R = obj.lambda*eye(size(obj.kernel));
-  obj.solver = (transpose(obj.currentKernel)*(inv(obj.kernel + R)));
+  obj.solver = obj.currentKernel*(inv(obj.kernel + R));
 
   % the incoming argument V should be a matrix <electrode number> x <time samples>
   % TODO CSD should arranged the same way the grid is so (T,point number)

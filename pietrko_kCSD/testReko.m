@@ -11,27 +11,30 @@ function testReko(potential_test)
 n=16;
 t=linspace(-0.2,1.2,n);
 [xx,yy]=meshgrid(t,t);
-base_grid=[reshape(xx,1,n^2); reshape(yy,1,n^2); zeros(1,n^2)];
+base_grid=[reshape(xx,n^2,1), reshape(yy,n^2,1), zeros(n^2,1)];
 % siatka bazowa base zdefiniowana
 
 % siatka próbkowania
 l=8;
 t=linspace(0,1,l);
 [xx,yy]=meshgrid(t,t);
-src_grid=[reshape(xx,1,l^2); reshape(yy,1,l^2); zeros(1,l^2)];
+src_grid=[reshape(xx,l^2,1), reshape(yy,l^2,1), zeros(l^2,1)];
 
 
 % siatka wyjścia, m-elementów? obszar [0,1]x[0,1]x[0]
 m=32;
 t=linspace(0,1,m);
 [xx,yy]=meshgrid(t,t);
-out_grid=[reshape(xx,1,m^2); reshape(yy,1,m^2); zeros(1,m^2)];
+out_grid=[reshape(xx,m^2,1), reshape(yy,m^2,1), zeros(m^2,1)];
 
 
 % definujemy sygnał - niech będzie płaski! kolumnowy wektor
 V = ones(l^2,1);
 
-
+size(src_grid)
+size(out_grid)
+size(base_grid)
+size(V)
 % klasa kcsd
 obj = kcsd( src_grid, out_grid, base_grid, V, 2.8/16);
 
@@ -39,7 +42,7 @@ obj = kcsd( src_grid, out_grid, base_grid, V, 2.8/16);
 obj=estimate(obj);
 figure(1)
 title('CSD reconstruction from flat potential');
-mesh( reshape(out_grid(1,:),m,m), reshape(out_grid(2,:),m,m), reshape(obj.CSD,m,m));
+mesh( reshape(out_grid(:,1),m,m), reshape(out_grid(:,2),m,m), reshape(obj.CSD,m,m));
 shading('interp');
 
 
@@ -49,24 +52,13 @@ shading('interp');
 K=obj.kernel;
 obj = recalcKernels(obj, 'interp_grid', out_grid);
 
-figure(3)
-plot(obj.lambdas, obj.lambdas_err,'x');
-%size(V)
-%size(obj.kernel)
-%size(obj.prePin)
-%size(obj.prePout)
 
 % liczenie prądu z potencjału większej liczbie punktów
 R=0.0*eye(size(K));
-Vtest = transpose(obj.kernel)*inv(K+R)*V;
+Vtest = obj.kernel*inv(K+R)*V;
 figure(2)
-mesh(reshape(out_grid(1,:),m,m), reshape(out_grid(2,:),m,m), reshape(Vtest,m,m));
-shading('interp');
-axis([0,1,0,1,0.75,1.25]);
-hold on
-plot3(src_grid(1,:), src_grid(2,:), V,'.');
-%plot3(out_grid(1,:), out_grid(2,:), Vtest,'o','color','green');
-hold off
+mesh(reshape(out_grid(:,1),m,m), reshape(out_grid(:,2),m,m), reshape(Vtest,m,m));
+%axis([0,1,0,1,0.75,1.25]);
 
 
 

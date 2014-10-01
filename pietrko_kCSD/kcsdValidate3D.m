@@ -3,13 +3,12 @@
 % it generates point csd and potential from 5 point charges in random locations
 % and then compares the result with reconstructed CSD
 %
-% csd_example->generated potential->reconstructed_csd 
+% csd->generated potential->reconstructed_csd
 %
-% All computations are for cube=[0,1]^3 and point charges q=1
+% All computations are performed for cube = [0,1]^3
 % 
 % parameters: plotElectrodes = 1 or 0
 %
-kcsdValidate3D(plotElectrodes)
 function kcsdValidate3D(plotElectrodes)
   sigma = 1.2/9;
   params = [sigma,1.0];
@@ -83,10 +82,6 @@ function kcsdValidate3D(plotElectrodes)
 
   % CALCULATION OF POTENTIAL IN ELECTRODE POSITIONS
   %
-  % Random electroded positions code
-  % corresponding potential
-  % positions of electrodes (15 of them) and points to calculate potential
-  % src_grid=rand(3,int32(0.7*n^3));
   V=[];
   for x=src_grid
     temp= interp3(X3,Y3,Z3,V3d, x(1),x(2),x(3));
@@ -107,9 +102,6 @@ function kcsdValidate3D(plotElectrodes)
 
   % PLOTTING
 
-
-  % FIGURE 2++:
-  % 3x3
   [~,~,Nz]=size(CSDr);
   view_size=3;
   X2=X3(:,:,1);

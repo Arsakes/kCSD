@@ -17,7 +17,7 @@ dim = obj.dim;
 sigma_n2=sigma^2;
 
 if dim == 3 || dim == 2
-  r2 = sum((x-origin).^2, 1)*0.5/sigma_n2;
+  r2 = sum((x-origin).^2, 2)*0.5/sigma_n2;
 else
   r2 = ((x-origin).^2 )*0.5/sigma_n2;
 end

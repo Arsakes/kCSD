@@ -22,7 +22,7 @@ function k = kcsd(src_grid, out_grid, base_grid, V, sigma, varargin)
   properties.src_grid = src_grid;  % list of points when the input V is given
   properties.out_grid = out_grid;  % list of the points where we want to estimate CSD
   properties.V = V;                % data structure containing measured potential for each time
-  [dim, ~] = size(src_grid);
+  [~,dim] = size(src_grid);
   properties.dim = dim;            % spatial dimmension of data
   properties.params = [sigma,1.0];   % [three_sigma, conductance]
 

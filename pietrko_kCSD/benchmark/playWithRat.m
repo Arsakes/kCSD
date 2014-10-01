@@ -9,7 +9,7 @@
 % Remember the current location
 %% plays the rat movie
 %
-load('brainRatSuperstar.mat');
+load('ratBrainSuperstar.mat');
 [h,w,p]=size(F(1).cdata);
 hf=figure;
 set(hf, 'position', [150,150,w,h]);
