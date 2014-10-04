@@ -84,11 +84,11 @@ pcolor(X,Y,jasioCSD); colormap(hot); shading('interp');
 xlabel('x')
 ylabel('y')
 
-title('2D: oryginalne kCSD1d');
+title('rekonstrukcja 2D: oryginalne kCSD');
 subplot(2,2,2)
 %size(pietrkoCSD)
 pcolor(X,Y,pietrkoCSD); colormap(hot); shading('interp');
-title('2D: moje kCSD1d');
+title('rekonstrukcja 2D: moje kCSD');
 xlabel('x')
 ylabel('y')
 
@@ -98,7 +98,9 @@ subplot(2,2,3);
 %pcolor(X,Y,V2d),shading('interp'), colorbar();
 % painting electrodes
 pcolor(X,Y,csd2d), shading('interp');
-title('oryginał')
+title('bazowy prąd');
+xlabel('x');
+ylabel('y');
 %hold on
 %  h=plot3(elPos(:,1),elPos(:,2), pots, 'o');
 %  set(h,'linewidth',(2.0));

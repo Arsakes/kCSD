@@ -111,17 +111,19 @@ function kcsdValidate3D(plotElectrodes)
   for ind=1:9
     i=ceil(ind*Nz/9);
   
-    figure(3);
+    fig1=figure(1);
     subplot(view_size, view_size, ind);
     pcolor(X2,Y2, csd3d(:,:,i) ), shading('interp');
     caxis([minC,maxC] );
     title(strcat('z=', num2str(i/m)) );
+    set(fig1, 'name', 'Base CSD slices');
   
-    figure(4)
+    fig2=figure(2);
     subplot(view_size, view_size, ind);
     pcolor(X2,Y2, CSDr(:,:,i)), shading('interp');
     caxis([minCSDr,maxCSDr] );
     title(strcat('z=', num2str(i/m)) );
+    set(fig2, 'name', 'Reconstructed CSD slices');
     % plotting circles for sources
     hold on
       % find nearby potential sources

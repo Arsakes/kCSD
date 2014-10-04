@@ -1,11 +1,13 @@
 function testReko(potential_test)
-% 
-% Test diagonali: diagonala kernela powinna być
-% sumą kwadratów funkcji bazowych 
-% dla ustalonej siatki funkcji bazowych wiadomo jak to z grubsza 
-% powinno wyglądać
 %
-
+%
+% OBSOLTE - do usniętcia w kolejnych wersjach
+% 
+% Test interpolacji potencjału - zamiast rekonstrukcji sprawdzamy
+% czy kCSD dobrze interpoluje funkcje.
+%
+%
+addpath('../');
 % przygotowywanie siatki bazowej (tj. funkcji bazowych)
 % siatka jest 8x8 dwuwymiarowa
 n=16;
@@ -31,18 +33,14 @@ out_grid=[reshape(xx,m^2,1), reshape(yy,m^2,1), zeros(m^2,1)];
 % definujemy sygnał - niech będzie płaski! kolumnowy wektor
 V = ones(l^2,1);
 
-size(src_grid)
-size(out_grid)
-size(base_grid)
-size(V)
 % klasa kcsd
 obj = kcsd( src_grid, out_grid, base_grid, V, 2.8/16);
 
 %pełen zrekonstruowany sygnał trzeba wyrysować m^2 punktów
 obj=estimate(obj);
 figure(1)
-title('CSD reconstruction from flat potential');
 mesh( reshape(out_grid(:,1),m,m), reshape(out_grid(:,2),m,m), reshape(obj.CSD,m,m));
+title('CSD reconstruction from flat potential');
 shading('interp');
 
 
@@ -58,6 +56,7 @@ R=0.0*eye(size(K));
 Vtest = obj.kernel*inv(K+R)*V;
 figure(2)
 mesh(reshape(out_grid(:,1),m,m), reshape(out_grid(:,2),m,m), reshape(Vtest,m,m));
+title('Interpolated potential');
 %axis([0,1,0,1,0.75,1.25]);
 
 

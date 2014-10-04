@@ -9,7 +9,7 @@
 % Remember the current location
 %% Setup parameters for data analysis
 pietrko_kCSD='../';
-data_path='./'
+data_path='./';
 
 addpath(data_path);
 addpath(pietrko_kCSD);
