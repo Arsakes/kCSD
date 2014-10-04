@@ -15,7 +15,7 @@ function kcsdValidate3D(plotElectrodes)
 
   % UTIL FUNCTIONS DEFINITON
   
-
+  addpath('../');
   % DEFINING GRID
   % preparing input for kCSD
   % grid of base functions 8x8x8
@@ -26,7 +26,7 @@ function kcsdValidate3D(plotElectrodes)
   X=reshape(xx,n^2,1); 
   Y=reshape(yy,n^2,1); 
   for z=t;
-    Z=z*ones(1,n^2);
+    Z=z*ones(n^2,1);
     base_grid=[base_grid; [X,Y, Z]];
   end
   
@@ -38,8 +38,8 @@ function kcsdValidate3D(plotElectrodes)
   X=reshape(xx,m^2,1); 
   Y=reshape(yy,m^2,1); 
   for z=t;
-    Z=z*ones(1,m^2);
-    out_grid=[out_grid, [X;Y;Z]];
+    Z=z*ones(m^2,1);
+    out_grid=[out_grid; [X,Y,Z]];
   end
   % grid for visualistaion of potential 
   [X3,Y3,Z3]=meshgrid(t,t,t);
@@ -52,8 +52,8 @@ function kcsdValidate3D(plotElectrodes)
   X=reshape(xx,l^2,1); 
   Y=reshape(yy,l^2,1); 
   for z=t;
-    Z=z*ones(1,l^2);
-    src_grid=[src_grid, [X;Y;Z]];
+    Z=z*ones(l^2,1);
+    src_grid=[src_grid; [X,Y,Z]];
   end
 
   % END OF GRID DEFINITION
@@ -62,7 +62,7 @@ function kcsdValidate3D(plotElectrodes)
   % DEFINITION OF CSD AND POTENTIAL
   %
   % definition of current (list of gassian charges centers)
-  pos_ind=randi(m,3,2)
+  pos_ind=randi(m,3,2);
   csd3d = zeros(m,m,m);
   V3d = zeros(m,m,m);
 
@@ -83,11 +83,10 @@ function kcsdValidate3D(plotElectrodes)
   % CALCULATION OF POTENTIAL IN ELECTRODE POSITIONS
   %
   V=[];
-  for x=src_grid
+  for x=src_grid'
     temp= interp3(X3,Y3,Z3,V3d, x(1),x(2),x(3));
     V=[V;temp];
   end
-
 
 
   % RECONSTRUCTION
