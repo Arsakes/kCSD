@@ -8,8 +8,8 @@
 
 % Remember the current location
 %% Setup parameters for data analysis
-pietrko_kCSD='/home/piotr/projekty/NENCKI/programy/pietrko_git/pietrko_kCSD';
-data_path='/home/piotr/projekty/NENCKI/programy/dane'
+pietrko_kCSD='../';
+data_path='./'
 
 addpath(data_path);
 addpath(pietrko_kCSD);
@@ -60,9 +60,9 @@ end
 
 
 % stupid part TODO fixe kcsd to be able to receive 
-base_grid=base_grid';
-out_grid=out_grid';
-src_grid=src_grid';
+base_grid=base_grid;
+out_grid=out_grid;
+src_grid=src_grid;
 %size(src_grid)
 %size(V)
 
@@ -103,7 +103,7 @@ Z=peaks;
 fig=figure('Renderer', 'zbuffer', 'position', [100,100, 800,600]);
 set(gca,'NextPlot','replaceChildren');
 surf(Z);
-for t=linspace(-9,19,1024)
+for t=linspace(-9,19,512)
   CSD_frame = squeeze(CSD(:,:,:,frame(t)));
   for i=1:7
     subplot(3,3,i)

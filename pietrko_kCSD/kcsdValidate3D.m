@@ -13,7 +13,7 @@ function kcsdValidate3D(plotElectrodes)
   sigma = 1.2/9;
   params = [sigma,1.0];
 
-  % UTIL FUNTIONS DEFINITON
+  % UTIL FUNCTIONS DEFINITON
   
 
   % DEFINING GRID
@@ -23,11 +23,11 @@ function kcsdValidate3D(plotElectrodes)
   t=linspace(-0.1,1.1,n);
   [xx,yy]=meshgrid(t,t);
   base_grid=[];
-  X=reshape(xx,1,n^2); 
-  Y=reshape(yy,1,n^2); 
+  X=reshape(xx,n^2,1); 
+  Y=reshape(yy,n^2,1); 
   for z=t;
     Z=z*ones(1,n^2);
-    base_grid=[base_grid, [X;Y; Z]];
+    base_grid=[base_grid; [X,Y, Z]];
   end
   
   % preparing grid for output for comparision of both pictures
@@ -35,8 +35,8 @@ function kcsdValidate3D(plotElectrodes)
   t=linspace(0,1,m);
   [xx,yy]=meshgrid(t,t);
   out_grid=[];
-  X=reshape(xx,1,m^2); 
-  Y=reshape(yy,1,m^2); 
+  X=reshape(xx,m^2,1); 
+  Y=reshape(yy,m^2,1); 
   for z=t;
     Z=z*ones(1,m^2);
     out_grid=[out_grid, [X;Y;Z]];
@@ -49,8 +49,8 @@ function kcsdValidate3D(plotElectrodes)
   t=linspace(0,1,l);
   [xx,yy]=meshgrid(t,t);
   src_grid=[];
-  X=reshape(xx,1,l^2); 
-  Y=reshape(yy,1,l^2); 
+  X=reshape(xx,l^2,1); 
+  Y=reshape(yy,l^2,1); 
   for z=t;
     Z=z*ones(1,l^2);
     src_grid=[src_grid, [X;Y;Z]];
